@@ -23,7 +23,7 @@
                         <h2><b>${titulo}</b></h2>
                     </div>
                     <div class="col-sm-6">
-                        <a href="/formulario" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Agregar Estudiante</span></a>
+                        <a href="/new-student" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Agregar Estudiante</span></a>
                     </div>
                 </div>
             </div>
@@ -46,8 +46,8 @@
                         <td>${estudiante.apellido}</td>
                         <td>${estudiante.telefono}</td>
                         <td>
-                            <a href="/editarEstudiante?matricula=${estudiante.matricula}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="/eliminar/${estudiante.matricula}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <a href="/edit-student?matricula=${estudiante.matricula}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="/delete/${estudiante.matricula}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
                 </#list>
