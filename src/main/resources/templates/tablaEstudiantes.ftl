@@ -23,7 +23,7 @@
                         <h2><b>${titulo}</b></h2>
                     </div>
                     <div class="col-sm-6">
-                        <a href="/list-students" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Agregar Estudiante</span></a>
+                        <a href="/new-student" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Agregar Estudiante</span></a>
                     </div>
                 </div>
             </div>

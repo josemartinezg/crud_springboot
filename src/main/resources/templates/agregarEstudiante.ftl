@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input onclick="window.location.href='/listadoDeEstudiantes'" type="button" class="btn btn-default" value="Cancel">
+                    <input onclick="window.location.href='/list-students'" type="button" class="btn btn-default" value="Cancel">
                     <input type="submit" class="btn btn-success" value="Agregar" name="agregar">
                 </div>
             </form>

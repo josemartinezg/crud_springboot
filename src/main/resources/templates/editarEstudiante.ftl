@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>${title}</title>'
+    <title>${titulo}</title>'
     <!-- Fuentes e iconografía -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -21,9 +21,9 @@
 <div id="editEmployeeModal" >
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/editarEstudiante/${estudiante.matricula}" method="post">
+            <form action="/edit-student/${estudiante.matricula}" method="post">
                 <div class="modal-header">
-                    <h4 class="modal-title">${title}</h4>
+                    <h4 class="modal-title">${titulo}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
