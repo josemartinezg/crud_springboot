@@ -20,6 +20,10 @@ public class EstudiantesController {
             misEstudiantes.add(new Estudiante(550, "Miguel", "Moronta", "829-999-5557"));
         }
     }
+    @GetMapping("/")
+    public String getIndex(){
+        return "index";
+    }
     @GetMapping("/list-students")
     public String listStudent(Model model){
         createStudentList();
