@@ -35,10 +35,10 @@ public class EstudiantesController {
     @GetMapping("/list-students")
     public String listStudent(Model model){
         List<Estudiante> estudiantes = estudianteRepository.findAll();
-        String titulo = "Lista de Estudiantes";
-        model.addAttribute("titulo", titulo);
+        String plantilla = "carrito.ftl";
+        model.addAttribute("plantilla", plantilla);
         model.addAttribute("misEstudiantes", estudiantes);
-        return "/tablaEstudiantes";
+        return "/base";
     }
     @GetMapping("/new-student")
     public String newStudent (Model model){
