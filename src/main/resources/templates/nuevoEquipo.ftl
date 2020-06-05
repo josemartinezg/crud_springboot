@@ -11,17 +11,29 @@
                     <form action="/crearArticuloAndItem/" method="post">
                         <div class="row">
                             <div class="col-xl-2 col-md-6">
-                                <label id="lbl-cliente">Cliente</label>
-                                <select class ="form-control form-control-sm" id="cliente" name="cliente">
-                                    <option value="0">- Elija el Cliente -</option>
-                                </select>
+                                <label id="lbl-marca">Marca</label>
+                                <input id="marca" name="marca" type="text" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-xl-2 col-md-6">
+                                <label id="lbl-modelo">Modelo</label>
+                                <input id="modelo" name="modelo" type="text" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-xl-2 col-md-6">
+                                <label id="lbl-descripcion-eq">Descripcion</label>
+                                <input id="descripcion-eq" name="descripcion-eq" type="text" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-xl-2 col-md-6">
+                                <label id="lbl-existencia">Existencia Inicial</label>
+                                <input id="existencia" name="existencia" type="number"
+                                       min="1" max="100" step="1" value="1"
+                                       class="form-control form-control-sm">
+                            </div>
+                            <div class="col-xl-2 col-md-6">
+                                <label id="lbl-imagen-eq">Imagen</label>
+                                <input id="imagen-eq" name="imagen-eq" type="image" class="form-control form-control-sm">
                             </div>
                             <!-- Estado definido por el servicio -->
                             <!-- Fecha inicial definida por el servicio -->
-                            <div class="col-xl-3 col-md-6">
-                                <label id="lb-fecha-devolucion">Fecha de Devolucion</label>
-                                <input id="fecha-devolucion" name="fecha-devolucion" type="date" class="form-control form-control-sm">
-                            </div>
                         </div>
                     </form>
                 </div>
