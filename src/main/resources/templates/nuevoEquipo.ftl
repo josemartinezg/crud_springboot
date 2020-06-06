@@ -8,7 +8,8 @@
             <div class="card mb-4">
                 <div class="card-header"><i class="fas fa-table mr-1"></i>Agregar Nuevo Articulo</div>
                 <div class="card-body">
-                    <form action="/crearArticuloAndItem/" method="post">
+                    /*enctype es para poder almacenar archivos*/
+                    <form action="/crear-equipo/" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-marca">Marca</label>
@@ -20,7 +21,14 @@
                             </div>
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-descripcion-eq">Descripcion</label>
-                                <input id="descripcion-eq" name="descripcion-eq" type="text" class="form-control form-control-sm">
+                                <input id="descripcion" name="descripcion" type="text"
+                                       class="form-control form-control-sm">
+                            </div>
+                            <div class="col-xl-2 col-md-6">
+                                <label id="lbl-costo">Costo Diario</label>
+                                <input id="costo" name="costo" type="number"
+                                       min="100.00" max="100000.00" step="50.00" value="100.00"
+                                       class="form-control form-control-sm">
                             </div>
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-existencia">Existencia Inicial</label>
@@ -30,7 +38,22 @@
                             </div>
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-imagen-eq">Imagen</label>
-                                <input id="imagen-eq" name="imagen-eq" type="image" class="form-control form-control-sm">
+                                <input id="imagen" name="imagen" type="file" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-xl-1 col-md-4">
+                                <label id="lb-familia">Familia de Equipos</label>
+                                <select class ="form-control form-control-sm" id="familia" name="familia">
+                                    <option value="0">- Elija una familia de equipos -</option>
+                                <#list familias as fam>
+                                    <option value="${fam.id}">
+                                        ${fam.familiaEquipo.nombre} - ${fam.nombre}
+                                    </option>
+                                </#list>
+                                </select>
+                            </div>
+                            <label id="lbl-btn"></label>
+                            <div class="col-xl-2 col-md-6 form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <button class="btn btn-primary" type="submit">Salvar</button>
                             </div>
                             <!-- Estado definido por el servicio -->
                             <!-- Fecha inicial definida por el servicio -->
@@ -50,6 +73,7 @@
                                 <th>Descripcion</th>
                                 <th>Existencia</th>
                                 <th>Costo Diario</th>
+                                <th>Familia</th>
                             </tr>
                             </thead>
                             <tfoot>
@@ -59,9 +83,23 @@
                                 <th>Descripcion</th>
                                 <th>Existencia</th>
                                 <th>Costo Diario</th>
+                                <th>Familia</th>
                             </tr>
                             </tfoot>
                             <tbody>
+                                <#if equipos?size != 0>
+                                    <#list equipos as equipo>
+                                        <tr>
+                                            <td>${equipo.marca}</td>
+                                            <td>${equipo.modelo}</td>
+                                            <td>${equipo.descripcion}</td>
+                                            <td>${equipo.cantidadEnExistencia}</td>
+                                            <td>RD$${equipo.costoAlquilerDiario}</td>
+                                            <td>${equipo.subFamiliaDeEquipos.familiaEquipo.nombre} -
+                                            ${equipo.subFamiliaDeEquipos.nombre}</td>
+                                        </tr>
+                                    </#list>
+                                </#if>
                             </tbody>
                         </table>
                     </div>
