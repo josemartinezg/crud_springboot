@@ -7,6 +7,7 @@ import com.pucmm.crud_springboot.repositorios.SubFamiliaEquipoRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class EquipoContoller {
@@ -33,6 +35,8 @@ public class EquipoContoller {
         model.addAttribute("pathHeader", pathHeader);
         model.addAttribute("copyRight", copyRight);
         /*Elementos de la plantilla*/
+        String path = "";
+        model.addAttribute("path", path);
         String plantilla = "nuevoEquipo.ftl";
         model.addAttribute("plantilla", plantilla);
         /*Objetos de la plantilla*/
@@ -66,9 +70,30 @@ public class EquipoContoller {
         model.addAttribute("pathHeader", pathHeader);
         model.addAttribute("copyRight", copyRight);
         /*Elementos de la plantilla*/
+        String path = "";
+        model.addAttribute("path", path);
         String plantilla = "nuevoEquipo.ftl";
         model.addAttribute("plantilla", plantilla);
         /*Objetos de la plantilla*/
         return "redirect:/nuevo-equipo/";
+    }
+    @GetMapping("ver-equipo/{id}")
+    public String verEquipo (Model model, @PathVariable long id){
+        /*Titulos de la plantilla*/
+        String mainHeader = "Equipos";
+        String pathHeader = "Ver Equipo";
+        String copyRight = "Copyright &copy; Your Website 2020";
+        model.addAttribute("mainHeader", mainHeader);
+        model.addAttribute("pathHeader", pathHeader);
+        model.addAttribute("copyRight", copyRight);
+        /*Objetos en la plantilla*/
+        Equipo equipoActual = equipoRepository.getOne(id);
+        model.addAttribute("equipo", equipoActual);
+        /*Elementos de la plantilla*/
+        String path = "../";
+        model.addAttribute("path", path);
+        String plantilla = "verEquipo.ftl";
+        model.addAttribute("plantilla", plantilla);
+        return "/base";
     }
 }
