@@ -41,10 +41,19 @@
                             <input id="familia" name="familia" value="${equipo.subFamiliaDeEquipos.familiaEquipo.nombre} |
                               ${equipo.subFamiliaDeEquipos.nombre}" disabled>
                         </div>
-                        <label id="lbl-btn"></label>
+                        <label id="lbl-btnDelete"></label>
                         <div class="col-xl-2 col-md-6 form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <button class="btn btn-primary" type="submit">Salvar</button>
+                            <a href="/eliminar-equipo/${equipo.id}"><button class="btn btn-danger">Eliminar</button></a>
                         </div>
+                        <label id="lbl-btnEditar"></label>
+                        <div class="col-xl-2 col-md-6 form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <a href="/editar-equipo?id=${equipo.id}"><button class="btn btn-warning">Editar</button></a>
+                        </div>
+                        <label id="lbl-btnSave"></label>
+                        <div class="col-xl-2 col-md-6 form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <button class="btn btn-primary" type="submit">Agregar a Alquiler</button>
+                        </div>
+
                         <!-- Estado definido por el servicio -->
                         <!-- Fecha inicial definida por el servicio -->
                     </input>
