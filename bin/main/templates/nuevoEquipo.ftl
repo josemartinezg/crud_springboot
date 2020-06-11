@@ -40,7 +40,7 @@
                                 <label id="lbl-imagen-eq">Imagen</label>
                                 <input id="imagen" name="imagen" type="file" class="form-control form-control-sm">
                             </div>
-                            <div class="col-xl-1 col-md-4">
+                            <div class="col-xl-3 col-md-4">
                                 <label id="lb-familia">Familia de Equipos</label>
                                 <select class ="form-control form-control-sm" id="familia" name="familia">
                                     <option value="0">- Elija una familia de equipos -</option>
@@ -91,7 +91,7 @@
                                     <#list equipos as equipo>
                                         <tr>
                                             <td>${equipo.marca}</td>
-                                            <td>${equipo.modelo}</td>
+                                            <td><a href="../ver-equipo/${equipo.id}">${equipo.modelo}</a></td>
                                             <td>${equipo.descripcion}</td>
                                             <td>${equipo.cantidadEnExistencia}</td>
                                             <td>RD$${equipo.costoAlquilerDiario}</td>
