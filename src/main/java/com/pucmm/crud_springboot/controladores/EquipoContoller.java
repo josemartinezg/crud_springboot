@@ -76,7 +76,7 @@ public class EquipoContoller {
         String plantilla = "nuevoEquipo.ftl";
         model.addAttribute("plantilla", plantilla);
         /*Objetos de la plantilla*/
-        return "redirect:/nuevo-equipo/";
+        return "redirect:/nuevo-equipo";
     }
     @GetMapping("ver-equipo/{id}")
     public String verEquipo (Model model, @PathVariable long id){
@@ -109,28 +109,33 @@ public class EquipoContoller {
         /*Objetos en la plantilla*/
         Equipo equipoActual = equipoRepository.getOne(id);
         model.addAttribute("equipo", equipoActual);
+        List<SubFamiliaEquipo> sFEList = sFEService.findAll();
+        model.addAttribute("familias", sFEList);
+        List<Equipo> equipoList = equipoRepository.findAll();
+        model.addAttribute("equipos", equipoList);
         /*Elementos de la plantilla*/
         String path = "../";
         model.addAttribute("edit", 1);
         model.addAttribute("path", path);
-        String plantilla = "nuevoEquipo.ftl";
+        String plantilla = "editarEquipo.ftl";
         model.addAttribute("plantilla", plantilla);
+
         return "base";
     }
     @PostMapping("/editar-equipo/{id}")
     public String editarEquipo(@RequestParam String marca, @RequestParam String modelo,
                                @RequestParam String descripcion, @RequestParam float costo,
                                @RequestParam MultipartFile imagen, @RequestParam int existencia,
-                               @RequestParam long familia, Model model) throws IOException {
+                               @RequestParam long familia, @PathVariable long id,Model model) throws IOException {
         SubFamiliaEquipo subFamilia = sFEService.getOne(familia);
         String encodedImage = Base64.getEncoder().encodeToString(imagen.getBytes());
         /*Creacion equipo*/
         if (imagen != null && descripcion != null){
-            Equipo nuevoEquipo = new Equipo(marca, modelo, descripcion, costo, encodedImage, existencia, subFamilia);
-            equipoRepository.save(nuevoEquipo);
+            Equipo equipoModificado = new Equipo(marca, modelo, descripcion, costo, encodedImage, existencia, subFamilia);
+            equipoService.actualizaEquipo(id, equipoModificado);
         }else if(imagen == null){
-            Equipo nuevoEquipo = new Equipo(marca, modelo, descripcion, costo, existencia, subFamilia);
-            equipoRepository.save(nuevoEquipo);
+            Equipo equipoModificado = new Equipo(marca, modelo, descripcion, costo, existencia, subFamilia);
+            equipoService.actualizaEquipo(id, equipoModificado);
         }
         /*Titulos de la plantilla*/
         String mainHeader = "Equipos";
@@ -143,9 +148,9 @@ public class EquipoContoller {
         String path = "";
         model.addAttribute("edit", 0);
         model.addAttribute("path", path);
-        String plantilla = "editarEquipo.ftl";
+        String plantilla = "nuevoEquipo.ftl";
         model.addAttribute("plantilla", plantilla);
-        return "redirect:/nuevo-equipo/";
+        return "redirect:/nuevo-equipo";
     }
 
     @RequestMapping("/eliminar-equipo/{id}")

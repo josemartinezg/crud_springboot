@@ -12,6 +12,18 @@ public class EquipoService {
     //Inyeccion del repositorio
     @Autowired
     private EquipoRepository equipoRepository;
+    @Transactional
+    public void actualizaEquipo(long id, Equipo equipoModificado){
+        Equipo equipoActual = equipoRepository.getOne(id);
+        equipoActual.setMarca(equipoModificado.getMarca());
+        equipoActual.setModelo(equipoModificado.getModelo());
+        equipoActual.setDescripcion(equipoModificado.getDescripcion());
+        equipoActual.setCostoAlquilerDiario(equipoModificado.getCostoAlquilerDiario());
+        equipoActual.setImagenEquipo(equipoModificado.getImagenEquipo());
+        equipoActual.setCantidadEnExistencia(equipoModificado.getCantidadEnExistencia());
+        equipoActual.setSubFamiliaDeEquipos(equipoModificado.getSubFamiliaDeEquipos());
+        equipoRepository.save(equipoActual);
+    }
 
     @Transactional
     public void eliminarEquipo(long id){
