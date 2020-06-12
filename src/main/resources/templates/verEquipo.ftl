@@ -51,7 +51,7 @@
                         </div>
                         <label id="lbl-btnSave"></label>
                         <div class="col-xl-2 col-md-6 form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <button class="btn btn-primary" type="submit">Agregar a Alquiler</button>
+                            <a href="/alquilar/${equipo.id}"> <button class="btn btn-primary" type="submit">Agregar a Alquiler</button></a>
                         </div>
 
                         <!-- Estado definido por el servicio -->

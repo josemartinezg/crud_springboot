@@ -31,6 +31,8 @@ public class Equipo implements Serializable {
     private Set<Alquiler> listaDeAlquileres;
     @ManyToOne(fetch = FetchType.LAZY)
     private SubFamiliaEquipo subFamiliaDeEquipos;
+    @ManyToOne
+    private Estado estado;
 
     public Equipo(String marca, String modelo, String descripcion,
                   float costo, String imagen, int existencia, SubFamiliaEquipo familia) {

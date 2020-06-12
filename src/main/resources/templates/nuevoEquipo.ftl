@@ -44,11 +44,11 @@
                                 <label id="lb-familia">Familia de Equipos</label>
                                 <select class ="form-control form-control-sm" id="familia" name="familia">
                                     <option value="0">- Elija una familia de equipos -</option>
-                                <#list familias as fam>
-                                    <option value="${fam.id}">
-                                        ${fam.familiaEquipo.nombre} - ${fam.nombre}
-                                    </option>
-                                </#list>
+                                    <#list familias as fam>
+                                        <option value="${fam.id}">
+                                            ${fam.familiaEquipo.nombre} - ${fam.nombre}
+                                        </option>
+                                    </#list>
                                 </select>
                             </div>
                             <label id="lbl-btn"></label>

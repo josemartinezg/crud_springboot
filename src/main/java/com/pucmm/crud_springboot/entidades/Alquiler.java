@@ -30,6 +30,30 @@ public class Alquiler implements Serializable {
     //En relación ManyToMany el mappedBy puede venir de cualquier extremo de la relación.
     @ManyToMany(mappedBy = "listaDeAlquileres", cascade = CascadeType.REMOVE)
     private Set<Equipo> listaDeEquiposRentados;
-    @Column(name = "foto_perfil")
-    private String fotoDePerfil;
+
+
+    public Alquiler(Cliente cliente, Estado estado, Date fechaDeAlquiler, Date fechaDevolucionEsperada) {
+        this.cliente = cliente;
+        this.estado = estado;
+        this.fechaDeAlquiler = fechaDeAlquiler;
+        this.fechaDevolucionEsperada = fechaDevolucionEsperada;
+    }
+    public Alquiler(Cliente cliente, Estado estado, Date fechaDeAlquiler, Date fechaDevolucionEsperada,
+        Set<Equipo> listaDeEquiposRentados) {
+        this.cliente = cliente;
+        this.estado = estado;
+        this.fechaDeAlquiler = fechaDeAlquiler;
+        this.fechaDevolucionEsperada = fechaDevolucionEsperada;
+        this.listaDeEquiposRentados = listaDeEquiposRentados;
+    }
+    public Alquiler(Cliente cliente, Estado estado, Date fechaDeAlquiler, Date fechaDevolucionEsperada,
+        Date fechaDevolcionReal, Set<Equipo> listaDeEquiposRentados) {
+        this.cliente = cliente;
+        this.estado = estado;
+        this.fechaDeAlquiler = fechaDeAlquiler;
+        this.fechaDevolucionEsperada = fechaDevolucionEsperada;
+        this.fechaDevolcionReal = fechaDevolcionReal;
+        this.listaDeEquiposRentados = listaDeEquiposRentados;
+    }
+
 }
