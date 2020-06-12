@@ -32,6 +32,11 @@ public class Alquiler implements Serializable {
     private Set<Equipo> listaDeEquiposRentados;
 
 
+    public Alquiler(Cliente cliente, Estado estado, Date fechaDevolucionEsperada) {
+        this.cliente = cliente;
+        this.estado = estado;
+        this.fechaDevolucionEsperada = fechaDevolucionEsperada;
+    }
     public Alquiler(Cliente cliente, Estado estado, Date fechaDeAlquiler, Date fechaDevolucionEsperada) {
         this.cliente = cliente;
         this.estado = estado;

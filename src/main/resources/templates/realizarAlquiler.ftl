@@ -8,7 +8,7 @@
             <div class="card mb-4">
                 <div class="card-header"><i class="fas fa-table mr-1"></i>Agregar Nuevo Articulo</div>
                 <div class="card-body">
-                    <form action="/crearArticuloAndItem/" method="post">
+                    <form action="/agregar-equipo" method="post">
                         <div class="row">
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-cliente">Cliente</label>

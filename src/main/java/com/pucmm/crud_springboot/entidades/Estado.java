@@ -16,8 +16,14 @@ import java.util.Set;
 public class Estado implements Serializable {
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
     private String nombre;
-    @OneToMany
+    @OneToMany(mappedBy = "estado")
     private Set<Equipo> equipos;
+
+    public Estado(long id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
 }

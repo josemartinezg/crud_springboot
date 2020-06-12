@@ -15,7 +15,7 @@ public class EquipoService {
     private EquipoRepository equipoRepository;
     @Transactional
     public Equipo obtenerEquipo(long id){
-        Equipo equipoActual = equipoRepository.findById(id).get();
+        Equipo equipoActual = equipoRepository.getOne(id);
         return equipoActual;
     }
 

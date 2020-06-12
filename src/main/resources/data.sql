@@ -1,6 +1,7 @@
 INSERT INTO ESTADO (ID, NOMBRE) VALUES (1, 'RENTADO');
 INSERT INTO ESTADO (ID, NOMBRE) VALUES (2, 'DEVUELTO');
 INSERT INTO ESTADO (ID, NOMBRE) VALUES (3, 'DEVUELTO PARCIALMENTE');
+INSERT INTO ESTADO (ID, NOMBRE) VALUES (4, 'EN PROCESO');
 
 INSERT INTO FAMILIA_EQUIPO (ID, NOMBRE, DESCRIPCION) VALUES (3, 'Cable', 'A long object used to make a physical connection. ');
 INSERT INTO FAMILIA_EQUIPO (ID, NOMBRE, DESCRIPCION) VALUES (2, 'Cellphone', 'Portable telephone that can make and receive calls over a radio frequency link while the user is moving within a telephone service area. ');
