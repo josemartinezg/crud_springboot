@@ -64,7 +64,7 @@ public class AlquilerController {
     @PostMapping("/alquilar/{id}")
     public String realizarAlquiler(@PathVariable long id, Model model){
         Equipo equipoActual = equipoService.obtenerEquipo(id);
-        return "base";
+        return "/base";
     }
 
     @PostMapping("/agregar-equipo")
@@ -94,6 +94,6 @@ public class AlquilerController {
         *  la cual tendra toda la información ya registrada del alquiler.
         * Luego debe de haber otro método que reciba unicamente un equipo nuevo que sea registrado, para agregarlo al
         * la lista de Equipos del Alquiler.*/
-        return "base";
+        return "/base";
     }
 }
