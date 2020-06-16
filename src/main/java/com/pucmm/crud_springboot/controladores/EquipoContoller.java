@@ -120,7 +120,7 @@ public class EquipoContoller {
         String plantilla = "editarEquipo.ftl";
         model.addAttribute("plantilla", plantilla);
 
-        return "base";
+        return "/base";
     }
     @PostMapping("/editar-equipo/{id}")
     public String editarEquipo(@RequestParam String marca, @RequestParam String modelo,

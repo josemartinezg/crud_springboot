@@ -53,6 +53,7 @@
                                 <th>Apellido</th>
                                 <th>Cedula</th>
                                 <th>Ver Alquileres</th>
+                                <th>Acciones</th>
                             </tr>
                             </thead>
                             <tfoot>
@@ -62,6 +63,7 @@
                                 <th>Apellido</th>
                                 <th>Cedula</th>
                                 <th>Ver Alquileres</th>
+                                <th>Acciones</th>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -76,6 +78,23 @@
                                         <td>${cliente.apellido}</td>
                                         <td>${cliente.cedula}</td>
                                         <td>Ver Alquileres</td>
+                                        <td>
+                                            <div class="col-sm-6">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <form action="/editar-cliente" method="get">
+                                                            <button type="submit" class="btn btn-outline-warning">Editar</button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col">
+                                                        <form action="/eliminar-cliente">
+                                                            <input id="id" name="id" value="${cliente.id}" hidden>
+                                                            <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </#list>
                             </tbody>
