@@ -26,7 +26,7 @@ public class EquipoContoller {
         this.equipoRepository = equipoRepository;
         this.equipoService = equipoService;
     }
-    @GetMapping("/nuevo-equipo")
+    @GetMapping("/equipos")
     public String listArticulos(Model model){
         /*Titulos de la plantilla*/
         String mainHeader = "Equipos";
@@ -76,7 +76,7 @@ public class EquipoContoller {
         String plantilla = "nuevoEquipo.ftl";
         model.addAttribute("plantilla", plantilla);
         /*Objetos de la plantilla*/
-        return "redirect:/nuevo-equipo";
+        return "redirect:/equipos";
     }
     @GetMapping("ver-equipo/{id}")
     public String verEquipo (Model model, @PathVariable long id){
@@ -150,7 +150,7 @@ public class EquipoContoller {
         model.addAttribute("path", path);
         String plantilla = "nuevoEquipo.ftl";
         model.addAttribute("plantilla", plantilla);
-        return "redirect:/nuevo-equipo";
+        return "redirect:/equipos";
     }
 
     @RequestMapping("/eliminar-equipo/{id}")
