@@ -6,42 +6,42 @@
                 <li class="breadcrumb-item active">${pathHeader}</li>
             </ol>
             <div class="card mb-4">
-                <div class="card-header"><i class="fas fa-table mr-1"></i>Agregar Nuevo Articulo</div>
+                <div class="card-header"><i class="fas fa-table mr-1"></i>Agregar Nuevo Equipo</div>
                 <div class="card-body">
                     <form action="/crear-equipo/" method="post" enctype="multipart/form-data">
 <#--                        Habilitando edición-->
                         <div class="row">
                             <div class="col-xl-2 col-md-6">
-                                <label id="lbl-marca">Marca</label>
-                                <input id="marca" name="marca" type="text" class="form-control form-control-sm">
+                                <label id="lbl-marca" for="marca">Marca</label>
+                                <input id="marca" name="marca" type="text" class="form-control form-control-sm" required>
                             </div>
                             <div class="col-xl-2 col-md-6">
-                                <label id="lbl-modelo">Modelo</label>
-                                <input id="modelo" name="modelo" type="text" class="form-control form-control-sm">
+                                <label id="lbl-modelo" for="modelo">Modelo</label>
+                                <input id="modelo" name="modelo" type="text" class="form-control form-control-sm" required>
                             </div>
                             <div class="col-xl-2 col-md-6">
-                                <label id="lbl-descripcion-eq">Descripcion</label>
+                                <label id="lbl-descripcion-eq" for="descripcion">Descripcion</label>
                                 <input id="descripcion" name="descripcion" type="text"
                                        class="form-control form-control-sm">
                             </div>
                             <div class="col-xl-2 col-md-6">
-                                <label id="lbl-costo">Costo Diario</label>
+                                <label id="lbl-costo" for="costo">Costo Diario</label>
                                 <input id="costo" name="costo" type="number"
                                        min="100.00" max="100000.00" step="50.00" value="100.00"
                                        class="form-control form-control-sm">
                             </div>
                             <div class="col-xl-2 col-md-6">
-                                <label id="lbl-existencia">Existencia Inicial</label>
+                                <label id="lbl-existencia" for="existencia">Existencia Inicial</label>
                                 <input id="existencia" name="existencia" type="number"
                                        min="1" max="100" step="1" value="1"
                                        class="form-control form-control-sm">
                             </div>
                             <div class="col-xl-2 col-md-6">
-                                <label id="lbl-imagen-eq">Imagen</label>
-                                <input id="imagen" name="imagen" type="file" class="form-control form-control-sm">
+                                <label id="lbl-imagen-eq" for="imagen">Imagen</label>
+                                <input id="imagen" name="imagen" type="file" class="form-control-file form-control-sm">
                             </div>
                             <div class="col-xl-3 col-md-4">
-                                <label id="lb-familia">Familia de Equipos</label>
+                                <label id="lb-familia" for="familia">Familia de Equipos</label>
                                 <select class ="form-control form-control-sm" id="familia" name="familia">
                                     <option value="0">- Elija una familia de equipos -</option>
                                     <#list familias as fam>
@@ -69,6 +69,7 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
+                                <th>Imagen de Equipo</th>
                                 <th>Marca</th>
                                 <th>Modelo</th>
                                 <th>Descripcion</th>
@@ -79,6 +80,7 @@
                             </thead>
                             <tfoot>
                             <tr>
+                                <th>Imagen de Equipo</th>
                                 <th>Marca</th>
                                 <th>Modelo</th>
                                 <th>Descripcion</th>
@@ -91,6 +93,11 @@
                                 <#if equipos?size != 0>
                                     <#list equipos as equipo>
                                         <tr>
+                                            <td>
+                                                <img src="data:image/png;base64, ${equipo.imagenEquipo}"
+                                                     height="80"
+                                                     width="80">
+                                            </td>
                                             <td>${equipo.marca}</td>
                                             <td><a href="../ver-equipo/${equipo.id}">${equipo.modelo}</a></td>
                                             <td>${equipo.descripcion}</td>
