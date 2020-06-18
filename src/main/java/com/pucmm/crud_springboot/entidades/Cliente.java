@@ -3,6 +3,7 @@ package com.pucmm.crud_springboot.entidades;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.swing.*;
@@ -33,5 +34,13 @@ public class Cliente implements Serializable {
         this.cedula = cedula;
         this.fotoDePeril = fotoDePeril;
     }
+    public Cliente(long id, String nombre, String apellido, String cedula, String fotoDePeril) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.cedula = cedula;
+        this.fotoDePeril = fotoDePeril;
+    }
+
 
 }

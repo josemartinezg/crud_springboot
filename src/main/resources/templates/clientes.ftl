@@ -8,37 +8,73 @@
             <div class="card mb-4">
                 <div class="card-header"><i class="fas fa-table mr-1"></i>Agregar Nuevo Cliente</div>
                 <div class="card-body">
-                    <form action="/crearCliente" method="post" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="cedula">Cedula</label>
-                                    <input type="text" class="form-control" id="cedula" name="cedula" placeholder="Cedula" required>
+                    <#if edicion != 1>
+                        <form action="/crearCliente" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="cedula">Cedula</label>
+                                        <input type="text" class="form-control" id="cedula" name="cedula" placeholder="Cedula" required>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-md-6">
+                                    <label id="lbl-imagen-eq">Imagen</label>
+                                    <input id="imagen" name="imagen" type="file" class="form-control-file form-control-sm">
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre</label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del Cliente" required>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="apellido">Apellido</label>
+                                        <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido del Cliente" required>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-xl-2 col-md-6">
-                                <label id="lbl-imagen-eq">Imagen</label>
-                                <input id="imagen" name="imagen" type="file" class="form-control-file form-control-sm">
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="nombre">Nombre</label>
-                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del Cliente" required>
+                            <input id="id" name="id" value="" hidden/>
+                            <div class="row">
+                                <div class="col">
+                                    <a href="/agregar-cliente"><button class="btn btn-success" type="submit">Agregar</button></a>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="apellido">Apellido</label>
-                                    <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido del Cliente" required>
+                        </form>
+                    <#else>
+                        <form action="/crearCliente" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="cedula">Cedula</label>
+                                        <input type="text" class="form-control" id="cedula" name="cedula" value="${clienteEditado.cedula}" placeholder="Cedula" required>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-md-6">
+                                    <label id="lbl-imagen-eq">Imagen</label>
+                                    <input id="imagen" name="imagen" type="file"  class="form-control-file form-control-sm">
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre</label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" value="${clienteEditado.nombre}" placeholder="Nombre del Cliente" required>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="apellido">Apellido</label>
+                                        <input type="text" class="form-control" id="apellido" name="apellido" value="${clienteEditado.apellido}" placeholder="Apellido del Cliente" required>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <a href="/agregar-cliente"><button class="btn btn-success" type="submit">Agregar</button></a>
+                            <div class="row">
+                                <div class="col">
+                                    <a><button class="btn btn-success" type="submit">Agregar</button></a>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                            <input id="id" name="id" value="${clienteEditado.id}" hidden/>
+                        </form>
+                    </#if>
                 </div>
             </div>
             <div class="card mb-4">
@@ -79,19 +115,16 @@
                                         <td>${cliente.cedula}</td>
                                         <td>Ver Alquileres</td>
                                         <td>
-                                            <div class="col-sm-6">
+                                            <div class="col  justify-content-center">
                                                 <div class="row">
-                                                    <div class="col">
-                                                        <form action="/editar-cliente" method="get">
-                                                            <button type="submit" class="btn btn-outline-warning">Editar</button>
-                                                        </form>
-                                                    </div>
-                                                    <div class="col">
-                                                        <form action="/eliminar-cliente">
-                                                            <input id="id" name="id" value="${cliente.id}" hidden>
-                                                            <button type="submit" class="btn btn-outline-danger">Eliminar</button>
-                                                        </form>
-                                                    </div>
+                                                    <form action="/editar-cliente" method="get">
+                                                        <input id="id" name="id" value="${cliente.id}" hidden>
+                                                        <button type="submit" class="btn btn-outline-warning">Editar</button>
+                                                    </form>
+                                                    <form action="/eliminar-cliente">
+                                                        <input id="id" name="id" value="${cliente.id}" hidden>
+                                                        <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>

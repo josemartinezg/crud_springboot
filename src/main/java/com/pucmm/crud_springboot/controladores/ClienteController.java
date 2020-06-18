@@ -37,6 +37,9 @@ public class ClienteController {
         List<Cliente> clientes = clienteService.getAllClients();
         model.addAttribute("clientes", clientes);
 
+        //Variable que indica no es editando
+        model.addAttribute("edicion", 0);
+
         String plantilla = "clientes.ftl";
         model.addAttribute("plantilla", plantilla);
         return "/base";
@@ -45,14 +48,25 @@ public class ClienteController {
     @PostMapping("/crearCliente")
     public String crearCliente(@RequestParam String nombre, @RequestParam String cedula,
                                @RequestParam String apellido, @RequestParam MultipartFile imagen,
-                               Model model) throws IOException {
+                               @RequestParam String id, Model model) throws IOException {
         String encodedImage = Base64.getEncoder().encodeToString(imagen.getBytes());
-        Cliente nuevoCliente = new Cliente(nombre, apellido, cedula, encodedImage);
-        clienteRepository.save(nuevoCliente);
+        if(!id.equals("")){
+            System.out.println(" ------- Entre con el id: " + id);
+            Cliente nuevoCliente = new Cliente(Long.parseLong(id), nombre, apellido, cedula, encodedImage);
+            System.out.println(nuevoCliente.toString());
+            clienteRepository.save(nuevoCliente);
+        }else{
+            Cliente nuevoCliente = new Cliente(nombre, apellido, cedula, encodedImage);
+            clienteRepository.save(nuevoCliente);
+        }
+
 
         model.addAttribute("pathHeader", this.pathHeader);
         model.addAttribute("copyRight", this.copyRight);
         model.addAttribute("mainHeader", this.mainHeader);
+
+        //Variable que indica no es editando
+        model.addAttribute("edicion", 0);
 
         List<Cliente> clientes = clienteService.getAllClients();
         model.addAttribute("clientes", clientes);
@@ -71,6 +85,9 @@ public class ClienteController {
         model.addAttribute("copyRight", this.copyRight);
         model.addAttribute("mainHeader", this.mainHeader);
 
+        //Variable que indica es editando
+        model.addAttribute("edicion", 1);
+
         List<Cliente> clientes = clienteService.getAllClients();
         model.addAttribute("clientes", clientes);
 
@@ -82,13 +99,20 @@ public class ClienteController {
 
     @RequestMapping("/eliminar-cliente")
     public String eliminarCliente(Model model, @RequestParam long id){
-        clienteRepository.deleteById(id);
+        if(id >= 0){
+            clienteRepository.deleteById(id);
+        }else{
+            return "/base";
+        }
         model.addAttribute("pathHeader", this.pathHeader);
         model.addAttribute("copyRight", this.copyRight);
         model.addAttribute("mainHeader", this.mainHeader);
 
         List<Cliente> clientes = clienteService.getAllClients();
         model.addAttribute("clientes", clientes);
+
+        //Variable que indica no es editando
+        model.addAttribute("edicion", 0);
 
         String plantilla = "clientes.ftl";
         model.addAttribute("plantilla", plantilla);
