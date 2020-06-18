@@ -9,7 +9,7 @@
                 <div class="card-header"><i class="fas fa-table mr-1"></i>Agregar Nuevo Cliente</div>
                 <div class="card-body">
                     <#if edicion != 1>
-                        <form action="/crearCliente" method="post" enctype="multipart/form-data">
+                        <form id="form" action="/crearCliente" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
@@ -35,14 +35,17 @@
                                 </div>
                             </div>
                             <input id="id" name="id" value="" hidden/>
-                            <div class="row">
-                                <div class="col">
+                            <div class="row justify-content-sm-start">
+                                <div class="col col-sm-1">
                                     <a href="/agregar-cliente"><button class="btn btn-success" type="submit">Agregar</button></a>
+                                </div>
+                                <div class="col col-sm-1">
+                                    <a><button class="btn btn-dark" onclick="limpiarForm()">limpiar</button></a>
                                 </div>
                             </div>
                         </form>
                     <#else>
-                        <form action="/crearCliente" method="post" enctype="multipart/form-data">
+                        <form id="form" action="/crearCliente" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
@@ -67,9 +70,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <a><button class="btn btn-success" type="submit">Agregar</button></a>
+                            <div class="row justify-content-sm-start">
+                                <div class="col col-sm-1">
+                                    <a><button class="btn btn-warning" type="submit">Salvar</button></a>
+                                </div>
+                                <div class="col col-sm-1">
+                                    <a><button class="btn btn-dark" onclick="limpiarForm()">limpiar</button></a>
                                 </div>
                             </div>
                             <input id="id" name="id" value="${clienteEditado.id}" hidden/>
@@ -124,7 +130,7 @@
                                                 </div>
                                                 <div class="">
                                                     <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop">
+                                                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#staticBackdrop">
                                                         Eliminar
                                                     </button>
                                                     <!-- Modal -->

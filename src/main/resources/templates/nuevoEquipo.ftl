@@ -8,7 +8,7 @@
             <div class="card mb-4">
                 <div class="card-header"><i class="fas fa-table mr-1"></i>Agregar Nuevo Equipo</div>
                 <div class="card-body">
-                    <form action="/crear-equipo/" method="post" enctype="multipart/form-data">
+                    <form id="form" action="/crear-equipo/" method="post" enctype="multipart/form-data">
 <#--                        Habilitando edición-->
                         <div class="row">
                             <div class="col-xl-2 col-md-6">
@@ -28,7 +28,7 @@
                                 <label id="lbl-costo" for="costo">Costo Diario</label>
                                 <input id="costo" name="costo" type="number"
                                        min="100.00" max="100000.00" step="50.00" value="100.00"
-                                       class="form-control form-control-sm">
+                                       class="form-control form-control-sm" required>
                             </div>
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-existencia" for="existencia">Existencia Inicial</label>
@@ -53,7 +53,10 @@
                             </div>
                             <label id="lbl-btn"></label>
                             <div class="col-xl-2 col-md-6 form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                <button class="btn btn-primary" type="submit">Salvar</button>
+                                <button class="btn btn-success" type="submit">Agregar</button>
+                            </div>
+                            <div class="col-xl-2 col-md-6 form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <a><button class="btn btn-dark" onclick="limpiarForm()">limpiar</button></a>
                             </div>
                             <!-- Estado definido por el servicio -->
                             <!-- Fecha inicial definida por el servicio -->
@@ -110,9 +113,9 @@
                                             <td>
                                                 <div class="row justify-content-center align-content-center">
 
-                                                    <a href="/editar-equipo?id=${equipo.id}"><button class="btn btn-warning">Editar</button></a>
+                                                    <a href="/editar-equipo?id=${equipo.id}"><button class="btn btn-outline-warning">Editar</button></a>
                                                     <div>
-                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop">
+                                                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#staticBackdrop">
                                                             Eliminar
                                                         </button>
                                                         <!-- Modal -->
@@ -136,7 +139,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <a href="/alquilar/${equipo.id}"> <button class="btn btn-primary" type="submit">Agregar a Alquiler</button></a>
+                                                    <a href="/alquilar/${equipo.id}"> <button class="btn btn-outline-primary" type="submit">Agregar a Alquiler</button></a>
                                                 </div>
                                             </td>
                                         </tr>

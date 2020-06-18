@@ -14,7 +14,7 @@ import java.sql.Date;
 @Entity
 public class Factura implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "fecha_facturacion")
     private Date fechaFacturacion;
