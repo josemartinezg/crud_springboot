@@ -76,6 +76,7 @@
                                 <th>Existencia</th>
                                 <th>Costo Diario</th>
                                 <th>Familia</th>
+                                <th>Acciones</th>
                             </tr>
                             </thead>
                             <tfoot>
@@ -87,6 +88,7 @@
                                 <th>Existencia</th>
                                 <th>Costo Diario</th>
                                 <th>Familia</th>
+                                <th>Acciones</th>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -105,6 +107,38 @@
                                             <td>RD$${equipo.costoAlquilerDiario}</td>
                                             <td>${equipo.subFamiliaDeEquipos.familiaEquipo.nombre} -
                                             ${equipo.subFamiliaDeEquipos.nombre}</td>
+                                            <td>
+                                                <div class="row justify-content-center align-content-center">
+
+                                                    <a href="/editar-equipo?id=${equipo.id}"><button class="btn btn-warning">Editar</button></a>
+                                                    <div>
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop">
+                                                            Eliminar
+                                                        </button>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title" id="staticBackdropLabel">Eliminar</h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong>¿Esta seguro de eliminar el equipo <span class="badge badge-danger"> ${equipo.marca} ${equipo.modelo}</span>? Borraría toda la información relacionada.</strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                                        <a href="/eliminar-equipo/${equipo.id}"><button class="btn btn-danger">Eliminar</button></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <a href="/alquilar/${equipo.id}"> <button class="btn btn-primary" type="submit">Agregar a Alquiler</button></a>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </#list>
                                 </#if>

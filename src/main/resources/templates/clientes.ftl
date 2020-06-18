@@ -115,16 +115,41 @@
                                         <td>${cliente.cedula}</td>
                                         <td>Ver Alquileres</td>
                                         <td>
-                                            <div class="col  justify-content-center">
-                                                <div class="row">
+                                            <div class="row justify-content-center align-content-center">
+                                                <div class="">
                                                     <form action="/editar-cliente" method="get">
                                                         <input id="id" name="id" value="${cliente.id}" hidden>
                                                         <button type="submit" class="btn btn-outline-warning">Editar</button>
                                                     </form>
-                                                    <form action="/eliminar-cliente">
-                                                        <input id="id" name="id" value="${cliente.id}" hidden>
-                                                        <button type="submit" class="btn btn-outline-danger">Eliminar</button>
-                                                    </form>
+                                                </div>
+                                                <div class="">
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop">
+                                                        Eliminar
+                                                    </button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" id="staticBackdropLabel">Eliminar</h4>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <strong>¿Esta seguro de eliminar el cliente <span class="badge badge-danger"> ${cliente.nombre} ${cliente.apellido}</span>? Borraría toda la información relacionada.</strong>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                                    <form action="/eliminar-cliente">
+                                                                        <input id="id" name="id" value="${cliente.id}" hidden>
+                                                                        <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
