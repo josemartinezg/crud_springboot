@@ -16,7 +16,7 @@ import java.util.Set;
 @Table
 public class Alquiler implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @ManyToOne(fetch = FetchType.LAZY)
     private Cliente cliente;

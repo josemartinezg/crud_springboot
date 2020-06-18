@@ -15,7 +15,7 @@ import java.util.Set;
 @Table
 public class Equipo implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String marca;
     private String modelo;

@@ -18,7 +18,7 @@ import java.util.Set;
 @Entity
 public class Cliente implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String nombre;
     private String apellido;
