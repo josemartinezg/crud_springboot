@@ -13,7 +13,6 @@
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-cliente">Cliente</label>
                                 <select class ="form-control form-control-sm" id="cliente" name="cliente">
-                                    <option value="0">- Elija el Cliente -</option>
                                 </select>
                             </div>
                             <!-- Estado definido por el servicio -->

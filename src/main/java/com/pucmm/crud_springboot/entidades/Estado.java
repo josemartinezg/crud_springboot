@@ -1,14 +1,13 @@
 package com.pucmm.crud_springboot.entidades;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
@@ -18,6 +17,8 @@ public class Estado implements Serializable {
     @GeneratedValue
     private long id;
     private String nombre;
+    @OneToMany(mappedBy = "estado")
+    private Set<Alquiler> alquileres;
     @OneToMany(mappedBy = "estado")
     private Set<Equipo> equipos;
 
