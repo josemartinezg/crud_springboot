@@ -9,7 +9,7 @@
                 <div class="card-header"><i class="fas fa-table mr-1"></i>Agregar Nuevo Articulo</div>
                 <div class="card-body">
                     <#if alquiler??>
-                        <form action="/agregar-equipo" method="post">
+                        <form action="/agregar-equipo/${alquiler.id}" method="post">
                     <#else>
                         <form action="/nuevo-alquiler" method="post">
                     </#if>
@@ -65,7 +65,7 @@
                             <label id="lbl-btn"></label>
                             <div class="col-xl-2 col-md-6 form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                 <#if alquiler??>
-                                    <a href="/agregar-equipo"><button class="btn btn-warning" type="submit">Agregar Equipo</button></a>
+                                    <a href="/agregar-equipo/${alquiler.id}"><button class="btn btn-warning" type="submit">Agregar Equipo</button></a>
                                     <label id="lbl-btn-success"></label>
                                     <div class="col-xl-2 col-md-6 form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                     <a href="/finalizar-alquiler"><button class="btn btn-success" type="submit">Finalizar alquiler</button></a>

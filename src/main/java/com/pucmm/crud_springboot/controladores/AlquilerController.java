@@ -38,17 +38,7 @@ public class AlquilerController {
     @GetMapping("/realizar-alquiler")
     public String listArticulos(Model model){
         /*Titulos de la plantilla*/
-        String mainHeader = "Alquileres";
-        String pathHeader = "Realizar Alquileres";
-        String copyRight = "Copyright &copy; Your Website 2019";
-        model.addAttribute("mainHeader", mainHeader);
-        model.addAttribute("pathHeader", pathHeader);
-        model.addAttribute("copyRight", copyRight);
-        /*Elemntos de la plantilla*/
-        String path = "";
-        model.addAttribute("path", path);
-        String plantilla = "realizarAlquiler.ftl";
-        model.addAttribute("plantilla", plantilla);
+        setTemplateTitles(model, "Alquileres", "Realizar Alquiler", "", "realizarAlquiler.ftl");
         /*Objetos de la plantilla*/
         List<Cliente> clientes = clienteService.getAllClients();
         List<Estado> listaDeEstados = estadoRepository.findAll();
@@ -59,11 +49,7 @@ public class AlquilerController {
         model.addAttribute("nuevoAlquiler", 1);
         return "base";
     }
-    @PostMapping("/alquilar/{id}")
-    public String realizarAlquiler(@PathVariable long id, Model model){
-        Equipo equipoActual = equipoService.obtenerEquipo(id);
-        return "/base";
-    }
+
     /*Método para realizar la primera parte del alquiler.*/
     @PostMapping("/nuevo-alquiler")
     public String nuevoAlquiler(@RequestParam int cliente, Model model,
@@ -79,26 +65,8 @@ public class AlquilerController {
         Alquiler alquiler = alquilerService.alquilerEnProceso(primerEquipo, clienteActual, fechaDevolucion, cantidad);
         long idAlq = alquiler.getId();
         /*Titulos de la plantilla*/
-        String mainHeader = "Alquileres";
-        String pathHeader = "Realizar Alquileres";
-        String copyRight = "Copyright &copy; Your Website 2019";
-        model.addAttribute("mainHeader", mainHeader);
-        model.addAttribute("pathHeader", pathHeader);
-        model.addAttribute("copyRight", copyRight);
-        /*Elemntos de la plantilla*/
-        String path = "../";
-        model.addAttribute("path", path);
-        String plantilla = "realizarAlquiler.ftl";
-        model.addAttribute("plantilla", plantilla);
+        setTemplateTitles(model, "Alquileres", "Realizar Alquiler", "../", "realizarAlquiler.ftl");
 
-        /*Objetos de la plantilla*/
-        List<Cliente> clientes = clienteService.getAllClients();
-        List<Estado> listaDeEstados = estadoRepository.findAll();
-        List<Equipo> listaEquipos = equipoService.findAllEquipos();
-        model.addAttribute("clientes", clientes);
-        model.addAttribute("estados", listaDeEstados);
-        model.addAttribute("equipos", listaEquipos);
-        model.addAttribute("nuevoAlquiler", 1);
         return "redirect:/realizar-alquiler/" + idAlq;
 
     }
@@ -108,18 +76,8 @@ public class AlquilerController {
         *  la cual tendra toda la información ya registrada del alquiler.
         * Luego debe de haber otro método que reciba unicamente un equipo nuevo que sea registrado, para agregarlo al
         * la lista de Equipos del Alquiler.*/
-        /*Titulos de la plantilla*/
-        String mainHeader = "Alquileres";
-        String pathHeader = "Realizar Alquileres";
-        String copyRight = "Copyright &copy; Your Website 2019";
-        model.addAttribute("mainHeader", mainHeader);
-        model.addAttribute("pathHeader", pathHeader);
-        model.addAttribute("copyRight", copyRight);
-        /*Elemntos de la plantilla*/
-        String path = "../";
-        model.addAttribute("path", path);
-        String plantilla = "realizarAlquiler.ftl";
-        model.addAttribute("plantilla", plantilla);
+        /*Titulos y elementos de la plantilla*/
+        setTemplateTitles(model, "Alquileres", "Realizar Alquiler", "../", "realizarAlquiler.ftl");
         /*Objetos de la plantilla*/
         List<Cliente> clientes = clienteService.getAllClients();
         List<Estado> listaDeEstados = estadoRepository.findAll();
@@ -127,31 +85,40 @@ public class AlquilerController {
         Alquiler alquilerActual = alquilerService.obtenerAlquiler(id);
         Set<AlquilerEquipo> equiposEnAlquiler =  alquilerActual.getEquipos();
         String fechaDev = alquilerService.getFechaDevString(id);
+
         model.addAttribute("clientes", clientes);
         model.addAttribute("estados", listaDeEstados);
         model.addAttribute("equipos", listaEquipos);
         model.addAttribute("alquiler", alquilerActual);
         model.addAttribute("equiposEnAlquiler", equiposEnAlquiler);
-            model.addAttribute("fechaDevolucion", fechaDev);
+        model.addAttribute("fechaDevolucion", fechaDev);
         model.addAttribute("nuevoAlquiler", 2);
         return "base";
     }
     @PostMapping("/agregar-equipo/{id}")
-    public String agregarEquipo(Model model, @PathVariable long idAlquiler, @RequestParam long equipo, @RequestParam int cantidad){
+    public String agregarEquipo(Model model, @PathVariable long id, @RequestParam long equipo, @RequestParam int cantidad){
         /*Titulos de la plantilla*/
-        String mainHeader = "Alquileres";
-        String pathHeader = "Realizar Alquileres";
+        setTemplateTitles(model, "Alquileres", "Realizar alquiler", "../", "realizarAlquiler.ftl");
+        /*Elemntos de la plantilla*/
+        alquilerService.agregarEquipo(id, equipo, cantidad);
+        return "redirect:/realizar-alquiler/" + id;
+    }
+
+    @PostMapping("/finalizar-alquiler/{id}")
+    public String finalizarAlquiler(Model model, @PathVariable long id){
+        /*Titulos de la plantilla*/
+        setTemplateTitles(model, "Alquileres", "Nuevo Alquiler", "../", "realizarAlquiler.ftl");
+        alquilerService.finalizarAlquiler(id);
+//        alquilerService.obtenerAlquiler(id);
+        return "redirect:/nuevo-alquiler";
+    }
+
+    public void setTemplateTitles(Model model, String mainHeader, String pathHeader, String path, String plantilla){
         String copyRight = "Copyright &copy; Your Website 2019";
         model.addAttribute("mainHeader", mainHeader);
         model.addAttribute("pathHeader", pathHeader);
         model.addAttribute("copyRight", copyRight);
-        /*Elemntos de la plantilla*/
-        String path = "../";
         model.addAttribute("path", path);
-        String plantilla = "realizarAlquiler.ftl";
         model.addAttribute("plantilla", plantilla);
-
-        return "base";
     }
-
 }

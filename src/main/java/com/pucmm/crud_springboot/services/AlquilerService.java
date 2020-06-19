@@ -62,11 +62,24 @@ public class AlquilerService {
     }
 
     public AlquilerEquipo agregarEquipo(long idAlquiler, long idEquipo, int cantidad){
-
         Equipo nuevoEquipo = equipoRepository.findById(idEquipo).get();
-        Alquiler alquilerActual = alquilerRepository.findById(idAlquiler).get();
+        Alquiler alquilerActual = obtenerAlquiler(idAlquiler);
         AlquilerEquipo nuevaRelacion = new AlquilerEquipo(nuevoEquipo, alquilerActual, cantidad);
+        nuevoEquipo.getAlquileres().add(nuevaRelacion);
+        alquilerActual.getEquipos().add(nuevaRelacion);
 
+        alquilerEquipoRepository.save(nuevaRelacion);
+        equipoRepository.save(nuevoEquipo);
+        alquilerRepository.save(alquilerActual);
         return nuevaRelacion;
+    }
+
+    public Alquiler finalizarAlquiler(long id){
+        Alquiler alquiler = obtenerAlquiler(id);
+        Estado alquilado = estadoRepository.findById(1L).get();
+        alquiler.setEstado(alquilado);
+        alquiler.setFechaDeAlquiler(new Date(System.currentTimeMillis()));
+        alquilerRepository.save(alquiler);
+        return alquiler;
     }
 }
