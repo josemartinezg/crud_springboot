@@ -8,14 +8,14 @@
             <div class="card mb-4">
                 <div class="card-header"><i class="fas fa-table mr-1"></i>Agregar Nuevo Articulo</div>
                 <div class="card-body">
-                    <form action="/crearArticuloAndItem/" method="post">
+                    <form action="/agregar-equipo" method="post">
                         <div class="row">
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-cliente">Cliente</label>
                                 <select class ="form-control form-control-sm" id="cliente" name="cliente">
-                                    <option value="0">- Elija el Cliente -</option>
                                     <#list clientes as client>
-                                        <option value="${client.id}">
+                                        <option value="${client.id}" <#if cliente?? && alquiler??
+                                        && alquiler.cliente.id == cliente.id>selected</#if>>
                                             ${client.nombre} ${client.apellido}
                                         </option>
                                     </#list>
@@ -24,9 +24,9 @@
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-estado">Estado</label>
                                 <select class ="form-control form-control-sm" id="estado" name="estado">
-                                    <option value="0">- Elija un Estado -</option>
                                     <#list estados as estado>
-                                        <option value="${estado.id}">
+                                        <option value="${estado.id}" <#if estado?? && alquiler??
+                                        && alquiler.estado.id == estado.id>selected</#if>>
                                             ${estado.nombre}
                                         </option>
                                     </#list>
@@ -36,12 +36,12 @@
                             <!-- Fecha inicial definida por el servicio -->
                             <div class="col-xl-3 col-md-6">
                                 <label id="lb-fecha">Fecha de Devolucion</label>
-                                <input id="fecha" name="fecha" type="date" class="form-control form-control-sm">
+                                <input id="fecha" name="fecha" type="date" class="form-control form-control-sm"
+                                        <#if alquiler??> value="${fechaDevolucion}" </#if>>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <label id="lbl-equipos">Equipos</label>
                                 <select class ="form-control form-control-sm" id="equipo" name="equipo">
-                                    <option value="0">- Elija un Equipo -</option>
                                     <#list equipos as equipo>
                                         <option value="${equipo.id}">
                                             ${equipo.marca} ${equipo.modelo}
@@ -89,18 +89,20 @@
                             </tr>
                             </tfoot>
                             <tbody>
-                            <#if nuevoAlquiler != 1>
-                                <#list equiposEnAlquiler as equipo>
-                                    <tr>
-                                        <td>${equipo.marca}</td>
-                                        <td><a href="../ver-equipo/${equipo.id}">${equipo.modelo}</a></td>
-                                        <td>${equipo.descripcion}</td>
-                                        <td>${equipo.cantidadEnExistencia}</td>
-                                        <td>RD$${equipo.costoAlquilerDiario}</td>
-                                        <td>${equipo.subFamiliaDeEquipos.familiaEquipo.nombre} -
-                                            ${equipo.subFamiliaDeEquipos.nombre}</td>
-                                    </tr>
-                                </#list>
+                            <#if nuevoAlquiler??>
+                                <#if equiposEnAlquiler??>
+                                    <#list equiposEnAlquiler as equipo>
+                                        <tr>
+                                            <td>${equipo.equipo.marca}</td>
+                                            <td><a href="../ver-equipo/${equipo.equipo.id}">${equipo.equipo.modelo}</a></td>
+                                            <td>${equipo.equipo.descripcion}</td>
+                                            <td>${equipo.equipo.cantidadEnExistencia}</td>
+                                            <td>RD$${equipo.equipo.costoAlquilerDiario}</td>
+                                            <td>${equipo.equipo.subFamiliaDeEquipos.familiaEquipo.nombre} -
+                                                ${equipo.equipo.subFamiliaDeEquipos.nombre}</td>
+                                        </tr>
+                                    </#list>
+                                </#if>
                             </#if>
                             </tbody>
                         </table>

@@ -27,12 +27,12 @@ public class Equipo implements Serializable {
     private String imagenEquipo;
     @Column(name="cantidad_existencia")
     private int cantidadEnExistencia;
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Alquiler> listaDeAlquileres;
     @ManyToOne(fetch = FetchType.LAZY)
     private SubFamiliaEquipo subFamiliaDeEquipos;
     @ManyToOne(fetch = FetchType.LAZY)
     private Estado estado;
+    @OneToMany(mappedBy = "equipo")
+    Set<AlquilerEquipo> alquileres;
 
     public Equipo(String marca, String modelo, String descripcion,
                   float costo, String imagen, int existencia, SubFamiliaEquipo familia) {

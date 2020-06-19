@@ -1,9 +1,7 @@
 package com.pucmm.crud_springboot.entidades;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
+
+import lombok.*;
 
 import javax.persistence.*;
 import javax.swing.*;
@@ -12,7 +10,8 @@ import java.io.Serializable;
 import java.util.Base64;
 import java.util.Set;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
