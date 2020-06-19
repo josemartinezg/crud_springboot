@@ -65,10 +65,10 @@ public class AlquilerController {
         return "/base";
     }
     /*Método para realizar la primera parte del alquiler.*/
-    @PostMapping("/agregar-equipo")
-    public String agregarEquipoAlquiler(@RequestParam int cliente, Model model,
-                                        @RequestParam String fecha, @RequestParam int equipo,
-                                        @RequestParam int cantidad)
+    @PostMapping("/nuevo-alquiler")
+    public String nuevoAlquiler(@RequestParam int cliente, Model model,
+                                @RequestParam String fecha, @RequestParam int equipo,
+                                @RequestParam int cantidad)
             throws IOException, ParseException {
          System.out.println("Cliente " + cliente
         + " fecha: " + fecha +" equipo: " + equipo);
@@ -135,6 +135,23 @@ public class AlquilerController {
             model.addAttribute("fechaDevolucion", fechaDev);
         model.addAttribute("nuevoAlquiler", 2);
         return "base";
-
     }
+    @PostMapping("/agregar-equipo/{id}")
+    public String agregarEquipo(Model model, @PathVariable long idAlquiler, @RequestParam long equipo, @RequestParam int cantidad){
+        /*Titulos de la plantilla*/
+        String mainHeader = "Alquileres";
+        String pathHeader = "Realizar Alquileres";
+        String copyRight = "Copyright &copy; Your Website 2019";
+        model.addAttribute("mainHeader", mainHeader);
+        model.addAttribute("pathHeader", pathHeader);
+        model.addAttribute("copyRight", copyRight);
+        /*Elemntos de la plantilla*/
+        String path = "../";
+        model.addAttribute("path", path);
+        String plantilla = "realizarAlquiler.ftl";
+        model.addAttribute("plantilla", plantilla);
+
+        return "base";
+    }
+
 }

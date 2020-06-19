@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Entity
 public class AlquilerEquipo  implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
     private Alquiler alquiler;

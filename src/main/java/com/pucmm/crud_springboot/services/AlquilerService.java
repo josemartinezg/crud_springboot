@@ -36,13 +36,14 @@ public class AlquilerService {
         /*TODO: Verificar estado una vez se crea en la bd al momento de fallar el alquiler.*/
         Estado enProceso = estadoRepository.findById(4L).get();
         Alquiler alquilerParcial = new Alquiler(clienteActual, enProceso, fechaEsperada);
-        Set<Equipo> misEquipos = new HashSet<>();
-        misEquipos.add(primerEquipoAlquiler);
+
         alquilerRepository.save(alquilerParcial);
         /*Solución propuesta para la persistencia de la cantidad de equipos a ser alquilados.*/
         AlquilerEquipo alquilerEquipo = new AlquilerEquipo(primerEquipoAlquiler, alquilerParcial, cantidad);
+        Set<AlquilerEquipo> equipos = new HashSet<>();
+        equipos.add(alquilerEquipo);
         alquilerEquipoRepository.save(alquilerEquipo);
-        alquilerParcial.getEquipos().add(alquilerEquipo);
+        alquilerParcial.setEquipos(equipos);
         primerEquipoAlquiler.getAlquileres().add(alquilerEquipo);
         /*TODO: Debieramos de volver a guardar los objetos, luego de modificarlos?*/
         alquilerRepository.save(alquilerParcial);
@@ -58,5 +59,14 @@ public class AlquilerService {
         Alquiler actual = alquilerRepository.findById(id).get();
         String fecha = actual.getFechaDevolucionEsperada().toString();
         return fecha;
+    }
+
+    public AlquilerEquipo agregarEquipo(long idAlquiler, long idEquipo, int cantidad){
+
+        Equipo nuevoEquipo = equipoRepository.findById(idEquipo).get();
+        Alquiler alquilerActual = alquilerRepository.findById(idAlquiler).get();
+        AlquilerEquipo nuevaRelacion = new AlquilerEquipo(nuevoEquipo, alquilerActual, cantidad);
+
+        return nuevaRelacion;
     }
 }
