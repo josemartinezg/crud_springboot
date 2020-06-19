@@ -15,7 +15,7 @@ import java.util.Set;
 @Table
 public class Equipo implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String marca;
     private String modelo;
@@ -29,7 +29,7 @@ public class Equipo implements Serializable {
     private int cantidadEnExistencia;
     @ManyToOne(fetch = FetchType.LAZY)
     private SubFamiliaEquipo subFamiliaDeEquipos;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Estado estado;
     @OneToMany(mappedBy = "equipo")
     Set<AlquilerEquipo> alquileres;

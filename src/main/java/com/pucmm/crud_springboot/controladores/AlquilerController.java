@@ -62,7 +62,7 @@ public class AlquilerController {
     @PostMapping("/alquilar/{id}")
     public String realizarAlquiler(@PathVariable long id, Model model){
         Equipo equipoActual = equipoService.obtenerEquipo(id);
-        return "base";
+        return "/base";
     }
     /*Método para realizar la primera parte del alquiler.*/
     @PostMapping("/agregar-equipo")
@@ -135,5 +135,6 @@ public class AlquilerController {
             model.addAttribute("fechaDevolucion", fechaDev);
         model.addAttribute("nuevoAlquiler", 2);
         return "base";
+
     }
 }

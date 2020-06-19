@@ -15,3 +15,7 @@
         $("body").toggleClass("sb-sidenav-toggled");
     });
 })(jQuery);
+
+function limpiarForm(){
+    document.getElementById("form").reset();
+}
