@@ -2,6 +2,11 @@ package com.pucmm.crud_springboot.repositorios;
 
 import com.pucmm.crud_springboot.entidades.Estado;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface EstadoRepository extends JpaRepository<Estado, Integer> {
+import javax.transaction.Transactional;
+
+@Repository
+@Transactional
+public interface EstadoRepository extends JpaRepository<Estado, Long> {
 }

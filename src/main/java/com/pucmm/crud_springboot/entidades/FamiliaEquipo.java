@@ -1,17 +1,17 @@
 package com.pucmm.crud_springboot.entidades;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name = "familia_equipo")
 public class FamiliaEquipo implements Serializable {
     @Id
