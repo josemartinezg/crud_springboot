@@ -33,10 +33,9 @@ public class AlquilerService {
     /*Método escrito para realizar la primera parte del alquiler*/
     public Alquiler alquilerEnProceso (Equipo primerEquipoAlquiler, Cliente clienteActual,Date fechaEsperada,
                                        int cantidad){
-        /*TODO: Verificar estado una vez se crea en la bd al momento de fallar el alquiler.*/
+        /*TODO: Verificar si hay suficientes equipos en stock para realizar la transacción.*/
         Estado enProceso = estadoRepository.findById(4L).get();
         Alquiler alquilerParcial = new Alquiler(clienteActual, enProceso, fechaEsperada);
-
         alquilerRepository.save(alquilerParcial);
         /*Solución propuesta para la persistencia de la cantidad de equipos a ser alquilados.*/
         AlquilerEquipo alquilerEquipo = new AlquilerEquipo(primerEquipoAlquiler, alquilerParcial, cantidad);

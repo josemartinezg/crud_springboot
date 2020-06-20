@@ -8,10 +8,7 @@ import com.pucmm.crud_springboot.services.ClienteService;
 import com.pucmm.crud_springboot.services.EquipoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -26,9 +23,8 @@ public class AlquilerController {
     private final EstadoRepository estadoRepository;
     private final ClienteService clienteService;
     private final AlquilerService alquilerService;
-    public AlquilerController(SubFamiliaEquipoRepository sFEService, EquipoService equipoService,
-                              EstadoRepository estadoRepository, ClienteService clienteService,
-                              AlquilerService alquilerService){
+    public AlquilerController(SubFamiliaEquipoRepository sFEService, EquipoService equipoService, EstadoRepository estadoRepository,
+                              ClienteService clienteService, AlquilerService alquilerService){
         this.sFEService = sFEService;
         this.equipoService = equipoService;
         this.estadoRepository = estadoRepository;
@@ -36,7 +32,7 @@ public class AlquilerController {
         this.alquilerService = alquilerService;
     }
     @GetMapping("/realizar-alquiler")
-    public String listArticulos(Model model){
+    public String listArticulos(Model model, @RequestParam(required = false) Integer error){
         /*Titulos de la plantilla*/
         setTemplateTitles(model, "Alquileres", "Realizar Alquiler", "", "realizarAlquiler.ftl");
         /*Objetos de la plantilla*/
@@ -46,6 +42,9 @@ public class AlquilerController {
         model.addAttribute("clientes", clientes);
         model.addAttribute("estados", listaDeEstados);
         model.addAttribute("equipos", listaEquipos);
+        if (error != null){
+            model.addAttribute("error", error);
+        }
         model.addAttribute("nuevoAlquiler", 1);
         return "base";
     }
@@ -56,19 +55,21 @@ public class AlquilerController {
                                 @RequestParam String fecha, @RequestParam int equipo,
                                 @RequestParam int cantidad)
             throws IOException, ParseException {
-         System.out.println("Cliente " + cliente
-        + " fecha: " + fecha +" equipo: " + equipo);
          /*Creación de objetos en base a los parámetros-*/
         Equipo primerEquipo = equipoService.obtenerEquipo(equipo);
         Cliente clienteActual = clienteService.obtenerCliente(cliente);
         Date fechaDevolucion = Date.valueOf(fecha);
-        Alquiler alquiler = alquilerService.alquilerEnProceso(primerEquipo, clienteActual, fechaDevolucion, cantidad);
-        long idAlq = alquiler.getId();
         /*Titulos de la plantilla*/
         setTemplateTitles(model, "Alquileres", "Realizar Alquiler", "../", "realizarAlquiler.ftl");
+        int cantidadExistencia = primerEquipo.getCantidadEnExistencia();
 
-        return "redirect:/realizar-alquiler/" + idAlq;
-
+        if (cantidadExistencia >= cantidad){
+            Alquiler alquiler = alquilerService.alquilerEnProceso(primerEquipo, clienteActual, fechaDevolucion, cantidad);
+            long idAlq = alquiler.getId();
+            return "redirect:/realizar-alquiler/" + idAlq;
+        }else{
+            return "redirect:/realizar-alquiler?error=1";
+        }
     }
     @GetMapping("/realizar-alquiler/{id}")
     public String agregarMasEquiposAlquiler(@PathVariable long id, Model model){
@@ -104,13 +105,13 @@ public class AlquilerController {
         return "redirect:/realizar-alquiler/" + id;
     }
 
-    @PostMapping("/finalizar-alquiler/{id}")
+    @RequestMapping("/finalizar-alquiler/{id}")
     public String finalizarAlquiler(Model model, @PathVariable long id){
         /*Titulos de la plantilla*/
         setTemplateTitles(model, "Alquileres", "Nuevo Alquiler", "../", "realizarAlquiler.ftl");
         alquilerService.finalizarAlquiler(id);
 //        alquilerService.obtenerAlquiler(id);
-        return "redirect:/nuevo-alquiler";
+        return "redirect:/realizar-alquiler";
     }
 
     public void setTemplateTitles(Model model, String mainHeader, String pathHeader, String path, String plantilla){
