@@ -3,6 +3,7 @@ package com.pucmm.crud_springboot.controladores;
 import com.pucmm.crud_springboot.entidades.*;
 import com.pucmm.crud_springboot.repositorios.AlquilerEquipoRepository;
 import com.pucmm.crud_springboot.repositorios.EstadoRepository;
+import com.pucmm.crud_springboot.repositorios.FacturaRepository;
 import com.pucmm.crud_springboot.repositorios.SubFamiliaEquipoRepository;
 import com.pucmm.crud_springboot.services.AlquilerService;
 import com.pucmm.crud_springboot.services.ClienteService;
@@ -25,14 +26,17 @@ public class AlquilerController {
     private final ClienteService clienteService;
     private final AlquilerService alquilerService;
     private final AlquilerEquipoRepository alquilerEquipoRepository;
+    private final FacturaRepository facturaRepository;
     public AlquilerController(SubFamiliaEquipoRepository sFEService, EquipoService equipoService, EstadoRepository estadoRepository,
-                              ClienteService clienteService, AlquilerService alquilerService, AlquilerEquipoRepository alquilerEquipoRepository){
+                              ClienteService clienteService, AlquilerService alquilerService, AlquilerEquipoRepository alquilerEquipoRepository,
+                              FacturaRepository facturaRepository){
         this.sFEService = sFEService;
         this.equipoService = equipoService;
         this.estadoRepository = estadoRepository;
         this.clienteService = clienteService;
         this.alquilerService = alquilerService;
         this.alquilerEquipoRepository = alquilerEquipoRepository;
+        this.facturaRepository = facturaRepository;
     }
     @GetMapping("/realizar-alquiler")
     public String listArticulos(Model model, @RequestParam(required = false) Integer error){
@@ -42,9 +46,11 @@ public class AlquilerController {
         List<Cliente> clientes = clienteService.getAllClients();
         List<Estado> listaDeEstados = estadoRepository.findAll();
         List<Equipo> listaEquipos = equipoService.findAllEquipos();
+        String fechaDev = alquilerService.getStdFecha();
         model.addAttribute("clientes", clientes);
         model.addAttribute("estados", listaDeEstados);
         model.addAttribute("equipos", listaEquipos);
+        model.addAttribute("fechaDevolucion", fechaDev);
         if (error != null){
             model.addAttribute("error", error);
         }
@@ -121,7 +127,6 @@ public class AlquilerController {
         /*Titulos de la plantilla*/
         setTemplateTitles(model, "Alquileres", "Nuevo Alquiler", "../", "realizarAlquiler.ftl");
         alquilerService.finalizarAlquiler(id);
-//        alquilerService.obtenerAlquiler(id);
         return "redirect:/ver-alquileres";
     }
 
@@ -130,8 +135,19 @@ public class AlquilerController {
         /*Titulos de la plantilla*/
         setTemplateTitles(model, "Alquileres", "Ver Alquileres", "", "verAlquileres.ftl");
         /*Objetos de la plantilla*/
-        Set<Factura> facturas = alquilerService.generarFacturas();
+        List<Factura> facturas = facturaRepository.findAll();
         List<AlquilerEquipo> alquileres = alquilerEquipoRepository.findAll();
+        model.addAttribute("alquileres", alquileres);
+        model.addAttribute("facturas", facturas);
+        return "base";
+    }
+
+    @GetMapping("/ver-alquileres-pendientes")
+    public String verAlquileresPendientes(Model model){
+        /*Titulos de la plantilla*/
+        setTemplateTitles(model, "Alquileres", "Ver Alquileres Pendientes", "", "verAlquileres.ftl");
+        List<AlquilerEquipo> alquileres = alquilerEquipoRepository.findAll();
+        List<Factura> facturas = facturaRepository.findAll();
         model.addAttribute("alquileres", alquileres);
         model.addAttribute("facturas", facturas);
         return "base";

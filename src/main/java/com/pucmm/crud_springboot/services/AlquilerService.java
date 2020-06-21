@@ -61,6 +61,11 @@ public class AlquilerService {
         String fecha = actual.getFechaDevolucionEsperada().toString();
         return fecha;
     }
+    public String getStdFecha(){
+        long dayInMillis = 86400000;
+        String fecha = new Date(System.currentTimeMillis()+dayInMillis).toString();
+        return fecha;
+    }
 
     public AlquilerEquipo agregarEquipo(long idAlquiler, long idEquipo, int cantidad){
         Equipo nuevoEquipo = equipoRepository.findById(idEquipo).get();
@@ -82,10 +87,23 @@ public class AlquilerService {
         Estado alquilado = estadoRepository.findById(1L).get();
         alquiler.setEstado(alquilado);
         alquiler.setFechaDeAlquiler(new Date(System.currentTimeMillis()));
+        generarFactura(alquiler);
         alquilerRepository.save(alquiler);
         return alquiler;
     }
 
+    public void generarFactura(Alquiler alquiler){
+        Set<Factura> facturas = new HashSet<>();
+        float total = 0;
+        for (AlquilerEquipo relacion : alquiler.getEquipos()){
+            total = total + relacion.getCantidad() * relacion.getEquipo().getCostoAlquilerDiario();
+        }
+        Factura factura = new Factura(new Date(System.currentTimeMillis()), total, alquiler);
+        facturaRepository.save(factura);
+        facturas.add(factura);
+        alquiler.setFacturas(facturas);
+//        alquilerRepository.save(alquiler);
+    }
     public Set<Factura> generarFacturas(){
         Set<Factura> facturas = new HashSet<>();
         for (Alquiler alquiler : alquilerRepository.findAll()){

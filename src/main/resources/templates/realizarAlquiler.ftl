@@ -34,7 +34,7 @@
                             <div class="col-xl-2 col-md-5">
                                 <label id="lb-fecha">Fecha de Devolucion</label>
                                 <input id="fecha" name="fecha" type="date" class="form-control form-control-sm"
-                                        <#if alquiler??> value="${fechaDevolucion}" </#if>>
+                                        <#if fechaDevolucion??> value="${fechaDevolucion}" </#if>>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <label id="lbl-equipos">Equipos</label>

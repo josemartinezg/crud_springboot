@@ -17,6 +17,7 @@
                                 <th>Cliente</th>
                                 <th>Fecha Renta</th>
                                 <th>Fecha Entrega</th>
+                                <th>Estado</th>
                                 <th>Total</th>
                             </tr>
                             </thead>
@@ -26,6 +27,7 @@
                                 <th>Cliente</th>
                                 <th>Fecha Renta</th>
                                 <th>Fecha Entrega</th>
+                                <th>Estado</th>
                                 <th>Total</th>
                             </tr>
                             </tfoot>
@@ -38,6 +40,7 @@
                                         <td>${factura.alquiler.cliente.nombre} ${factura.alquiler.cliente.apellido}</td>
                                         <td>${factura.alquiler.fechaDeAlquiler}</td>
                                         <td>${factura.alquiler.fechaDevolucionEsperada}</td>
+                                        <td>${factura.alquiler.estado}</td>
                                         <td>RD$${factura.totalFacturado}</td>
                                     </tr>
                                 </#list>
