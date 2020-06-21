@@ -28,9 +28,10 @@ public class Alquiler implements Serializable {
     @Column(name = "fecha_devolucion_real")
     private Date fechaDevolcionReal;
     //En relación ManyToMany el mappedBy puede venir de cualquier extremo de la relación.
-
     @OneToMany(mappedBy = "alquiler")
     Set<AlquilerEquipo> equipos;
+    @OneToMany(mappedBy = "alquiler")
+    Set<Factura> facturas;
 
 
     public Alquiler(Cliente cliente, Estado estado, Date fechaDevolucionEsperada) {

@@ -1,14 +1,12 @@
 package com.pucmm.crud_springboot.services;
 
 import com.pucmm.crud_springboot.entidades.*;
-import com.pucmm.crud_springboot.repositorios.AlquilerEquipoRepository;
-import com.pucmm.crud_springboot.repositorios.AlquilerRepository;
-import com.pucmm.crud_springboot.repositorios.EquipoRepository;
-import com.pucmm.crud_springboot.repositorios.EstadoRepository;
+import com.pucmm.crud_springboot.repositorios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +21,8 @@ public class AlquilerService {
     private AlquilerEquipoRepository alquilerEquipoRepository;
     @Autowired
     private EquipoRepository equipoRepository;
+    @Autowired
+    private FacturaRepository facturaRepository;
     public Alquiler nuevoAlquiler(Equipo primerEquipoAlquiler, Cliente clienteActual, Estado estado, Date fechaEsperada) {
         Alquiler nuevoAlquiler = new Alquiler(clienteActual, estado, new Date(System.currentTimeMillis()), fechaEsperada);
         Set<Equipo> misEquipos = null;
@@ -44,6 +44,8 @@ public class AlquilerService {
         alquilerEquipoRepository.save(alquilerEquipo);
         alquilerParcial.setEquipos(equipos);
         primerEquipoAlquiler.getAlquileres().add(alquilerEquipo);
+        int cantidadExistencia = primerEquipoAlquiler.getCantidadEnExistencia();
+        primerEquipoAlquiler.setCantidadEnExistencia(cantidadExistencia - cantidad);
         /*TODO: Debieramos de volver a guardar los objetos, luego de modificarlos?*/
         alquilerRepository.save(alquilerParcial);
         equipoRepository.save(primerEquipoAlquiler);
@@ -63,7 +65,9 @@ public class AlquilerService {
     public AlquilerEquipo agregarEquipo(long idAlquiler, long idEquipo, int cantidad){
         Equipo nuevoEquipo = equipoRepository.findById(idEquipo).get();
         Alquiler alquilerActual = obtenerAlquiler(idAlquiler);
+        int cantidadExistencia = nuevoEquipo.getCantidadEnExistencia();
         AlquilerEquipo nuevaRelacion = new AlquilerEquipo(nuevoEquipo, alquilerActual, cantidad);
+        nuevoEquipo.setCantidadEnExistencia(cantidadExistencia - cantidad);
         nuevoEquipo.getAlquileres().add(nuevaRelacion);
         alquilerActual.getEquipos().add(nuevaRelacion);
 
@@ -80,5 +84,19 @@ public class AlquilerService {
         alquiler.setFechaDeAlquiler(new Date(System.currentTimeMillis()));
         alquilerRepository.save(alquiler);
         return alquiler;
+    }
+
+    public Set<Factura> generarFacturas(){
+        Set<Factura> facturas = new HashSet<>();
+        for (Alquiler alquiler : alquilerRepository.findAll()){
+            float total = 0;
+            for (AlquilerEquipo relacion : alquiler.getEquipos()){
+                total = total + relacion.getCantidad() * relacion.getEquipo().getCostoAlquilerDiario();
+            }
+            Factura factura = new Factura(new Date(System.currentTimeMillis()), total, alquiler);
+            facturaRepository.save(factura);
+            facturas.add(factura);
+        }
+        return facturas;
     }
 }

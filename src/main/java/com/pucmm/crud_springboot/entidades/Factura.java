@@ -20,4 +20,12 @@ public class Factura implements Serializable {
     private Date fechaFacturacion;
     @Column(name = "total_facturado")
     private float totalFacturado;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Alquiler alquiler;
+
+    public Factura(Date fechaFacturacion, float totalFacturado, Alquiler alquiler){
+        this.fechaFacturacion = fechaFacturacion;
+        this.totalFacturado = totalFacturado;
+        this.alquiler = alquiler;
+    }
 }

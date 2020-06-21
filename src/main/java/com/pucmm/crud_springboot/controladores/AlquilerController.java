@@ -1,6 +1,7 @@
 package com.pucmm.crud_springboot.controladores;
 
 import com.pucmm.crud_springboot.entidades.*;
+import com.pucmm.crud_springboot.repositorios.AlquilerEquipoRepository;
 import com.pucmm.crud_springboot.repositorios.EstadoRepository;
 import com.pucmm.crud_springboot.repositorios.SubFamiliaEquipoRepository;
 import com.pucmm.crud_springboot.services.AlquilerService;
@@ -23,13 +24,15 @@ public class AlquilerController {
     private final EstadoRepository estadoRepository;
     private final ClienteService clienteService;
     private final AlquilerService alquilerService;
+    private final AlquilerEquipoRepository alquilerEquipoRepository;
     public AlquilerController(SubFamiliaEquipoRepository sFEService, EquipoService equipoService, EstadoRepository estadoRepository,
-                              ClienteService clienteService, AlquilerService alquilerService){
+                              ClienteService clienteService, AlquilerService alquilerService, AlquilerEquipoRepository alquilerEquipoRepository){
         this.sFEService = sFEService;
         this.equipoService = equipoService;
         this.estadoRepository = estadoRepository;
         this.clienteService = clienteService;
         this.alquilerService = alquilerService;
+        this.alquilerEquipoRepository = alquilerEquipoRepository;
     }
     @GetMapping("/realizar-alquiler")
     public String listArticulos(Model model, @RequestParam(required = false) Integer error){
@@ -71,8 +74,8 @@ public class AlquilerController {
             return "redirect:/realizar-alquiler?error=1";
         }
     }
-    @GetMapping("/realizar-alquiler/{id}")
-    public String agregarMasEquiposAlquiler(@PathVariable long id, Model model){
+    @GetMapping("/realizar-alquiler/{id}" )
+    public String agregarMasEquiposAlquiler(@PathVariable long id, Model model, @RequestParam(required = false) Integer error){
         /*TODO: Este método me presentará la plantilla "nuevoAlquiler", o una variante
         *  la cual tendra toda la información ya registrada del alquiler.
         * Luego debe de haber otro método que reciba unicamente un equipo nuevo que sea registrado, para agregarlo al
@@ -86,7 +89,9 @@ public class AlquilerController {
         Alquiler alquilerActual = alquilerService.obtenerAlquiler(id);
         Set<AlquilerEquipo> equiposEnAlquiler =  alquilerActual.getEquipos();
         String fechaDev = alquilerService.getFechaDevString(id);
-
+        if (error != null){
+            model.addAttribute("error", error);
+        }
         model.addAttribute("clientes", clientes);
         model.addAttribute("estados", listaDeEstados);
         model.addAttribute("equipos", listaEquipos);
@@ -101,8 +106,14 @@ public class AlquilerController {
         /*Titulos de la plantilla*/
         setTemplateTitles(model, "Alquileres", "Realizar alquiler", "../", "realizarAlquiler.ftl");
         /*Elemntos de la plantilla*/
-        alquilerService.agregarEquipo(id, equipo, cantidad);
-        return "redirect:/realizar-alquiler/" + id;
+        int cantidadExistencia = equipoService.obtenerEquipo(equipo).getCantidadEnExistencia();
+        if(cantidadExistencia >= cantidad){
+            alquilerService.agregarEquipo(id, equipo, cantidad);
+            return "redirect:/realizar-alquiler/" + id;
+        }else{
+            return "redirect:/realizar-alquiler/" + id + "?error=1";
+        }
+
     }
 
     @RequestMapping("/finalizar-alquiler/{id}")
@@ -111,7 +122,19 @@ public class AlquilerController {
         setTemplateTitles(model, "Alquileres", "Nuevo Alquiler", "../", "realizarAlquiler.ftl");
         alquilerService.finalizarAlquiler(id);
 //        alquilerService.obtenerAlquiler(id);
-        return "redirect:/realizar-alquiler";
+        return "redirect:/ver-alquileres";
+    }
+
+    @GetMapping("/ver-alquileres")
+    public String verAlquileres(Model model){
+        /*Titulos de la plantilla*/
+        setTemplateTitles(model, "Alquileres", "Ver Alquileres", "", "verAlquileres.ftl");
+        /*Objetos de la plantilla*/
+        Set<Factura> facturas = alquilerService.generarFacturas();
+        List<AlquilerEquipo> alquileres = alquilerEquipoRepository.findAll();
+        model.addAttribute("alquileres", alquileres);
+        model.addAttribute("facturas", facturas);
+        return "base";
     }
 
     public void setTemplateTitles(Model model, String mainHeader, String pathHeader, String path, String plantilla){

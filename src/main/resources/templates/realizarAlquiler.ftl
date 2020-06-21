@@ -78,7 +78,6 @@
                 </div>
             </div>
             <#if alquiler??>
-                <div class="card-header"><i class="fas fa-table mr-1"></i>Boton mierda</div>
                 <div class="card-body">
                     <a href="/finalizar-alquiler/${alquiler.id}"><button class="btn btn-success" type="submit">Finalizar Alquiler</button></a>
                 </div>
