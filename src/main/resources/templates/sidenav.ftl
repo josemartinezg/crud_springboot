@@ -19,7 +19,7 @@
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="/ver-alquileres">Todos</a>
-                            <a class="nav-link" href="/equipos">No Devueltos</a>
+                            <a class="nav-link" href="/ver-alquileres-pendientes">No Devueltos</a>
                             <a class="nav-link" href="/equipos">Por Clientes</a>
                         </nav>
                     </div>

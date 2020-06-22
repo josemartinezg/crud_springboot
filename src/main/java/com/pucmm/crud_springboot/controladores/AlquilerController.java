@@ -8,6 +8,7 @@ import com.pucmm.crud_springboot.repositorios.SubFamiliaEquipoRepository;
 import com.pucmm.crud_springboot.services.AlquilerService;
 import com.pucmm.crud_springboot.services.ClienteService;
 import com.pucmm.crud_springboot.services.EquipoService;
+import com.pucmm.crud_springboot.services.FacturaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,17 +27,17 @@ public class AlquilerController {
     private final ClienteService clienteService;
     private final AlquilerService alquilerService;
     private final AlquilerEquipoRepository alquilerEquipoRepository;
-    private final FacturaRepository facturaRepository;
+    private final FacturaService facturaService;
     public AlquilerController(SubFamiliaEquipoRepository sFEService, EquipoService equipoService, EstadoRepository estadoRepository,
                               ClienteService clienteService, AlquilerService alquilerService, AlquilerEquipoRepository alquilerEquipoRepository,
-                              FacturaRepository facturaRepository){
+                              FacturaService facturaService){
         this.sFEService = sFEService;
         this.equipoService = equipoService;
         this.estadoRepository = estadoRepository;
         this.clienteService = clienteService;
         this.alquilerService = alquilerService;
         this.alquilerEquipoRepository = alquilerEquipoRepository;
-        this.facturaRepository = facturaRepository;
+        this.facturaService = facturaService;
     }
     @GetMapping("/realizar-alquiler")
     public String listArticulos(Model model, @RequestParam(required = false) Integer error){
@@ -135,9 +136,7 @@ public class AlquilerController {
         /*Titulos de la plantilla*/
         setTemplateTitles(model, "Alquileres", "Ver Alquileres", "", "verAlquileres.ftl");
         /*Objetos de la plantilla*/
-        List<Factura> facturas = facturaRepository.findAll();
-        List<AlquilerEquipo> alquileres = alquilerEquipoRepository.findAll();
-        model.addAttribute("alquileres", alquileres);
+        List<Factura> facturas = facturaService.getAllFacturas();
         model.addAttribute("facturas", facturas);
         return "base";
     }
@@ -146,10 +145,21 @@ public class AlquilerController {
     public String verAlquileresPendientes(Model model){
         /*Titulos de la plantilla*/
         setTemplateTitles(model, "Alquileres", "Ver Alquileres Pendientes", "", "verAlquileres.ftl");
-        List<AlquilerEquipo> alquileres = alquilerEquipoRepository.findAll();
-        List<Factura> facturas = facturaRepository.findAll();
-        model.addAttribute("alquileres", alquileres);
+        long rentado = 1L;
+        List<Factura> facturas = facturaService.getAlquilerByEstado(rentado);
         model.addAttribute("facturas", facturas);
+        return "base";
+    }
+
+    @GetMapping("/ver-alquileres-por-cliente/{id}")
+    public String verAlquileresPorCliente(Model model, @PathVariable long id){
+        /*Titulos de la plantilla*/
+        setTemplateTitles(model, "Alquileres", "Ver Alquileres Por Cliente", "", "verAlquileres.ftl");
+        long rentado = 1L;
+        List<Cliente> clientes = clienteService.getAllClients();
+        List<Factura> facturas = facturaService.getAlquilerByCliente(id);
+        model.addAttribute("facturas", facturas);
+        model.addAttribute("clientes", clientes);
         return "base";
     }
 
