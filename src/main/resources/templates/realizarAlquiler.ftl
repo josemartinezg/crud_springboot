@@ -20,6 +20,7 @@
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-cliente">Cliente</label>
                                 <select class ="form-control form-control-sm" id="cliente" name="cliente">
+                                    <option value="0">- Seleccione un cliente-</option>
                                     <#list clientes as client>
                                         <option value="${client.id}" <#if cliente?? && alquiler??
                                         && alquiler.cliente.id == cliente.id>selected</#if>>
@@ -83,7 +84,7 @@
                 </div>
             </#if>
             <div class="card mb-4">
-                <div class="card-header"><i class="fas fa-table mr-1"></i>Lista de Equipos</div>
+                <div class="card-header"><i class="fas fa-table mr-1"></i><#if id == 0> Lista de Alquileres<#elseif id != 0> Historial de Alquileres<#if></div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

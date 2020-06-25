@@ -22,7 +22,56 @@
 <script src="/js/home.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="/js/demo/chart-area-demo.js"></script>
-<script src="/js/demo/chart-bar-demo.js"></script>
+<script>
+    // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#292b2c';
+
+    // Bar Chart Example
+    var ctx = document.getElementById("myBarChart");
+    var myLineChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            /*Arreglo de  nombres de subfamilias*/
+            labels: [<#list chartLabels as label>${label},</#list>],
+            datasets: [{
+                label: "Revenue",
+                backgroundColor: "rgba(2,117,216,1)",
+                borderColor: "rgba(2,117,216,1)",
+                /*Arreglo de dias por subfamilia*/
+                data: [<#list chartData as data>${data},</#list>],
+            }],
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'month'
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 6
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 15000,
+                        maxTicksLimit: 5
+                    },
+                    gridLines: {
+                        display: true
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+</script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 <script src="/js/demo/datatables-demo.js"></script>
@@ -38,6 +87,12 @@
         window.location.replace("/articulos/" + selectedCart.toString());
     });
 </script>
+<script type="text/javascript">
+    $("#clientes").change(function () {
+        var id = document.getElementById("clientes").value;
+        window.location.href = "/ver-alquileres/" + id;
+    });
 
+</script>
 </body>
 </html>

@@ -56,6 +56,12 @@ public class AlquilerService {
         Alquiler actual = alquilerRepository.findById(id).get();
         return actual;
     }
+
+    public List<Alquiler> obtenerAlquileres(){
+        List<Alquiler> actual = alquilerRepository.findAll();
+        return actual;
+    }
+
     public String getFechaDevString(long id){
         Alquiler actual = alquilerRepository.findById(id).get();
         String fecha = actual.getFechaDevolucionEsperada().toString();
@@ -63,6 +69,8 @@ public class AlquilerService {
     }
     public String getStdFecha(){
         long dayInMillis = 86400000;
+        Date date = new Date(System.currentTimeMillis()+dayInMillis);
+
         String fecha = new Date(System.currentTimeMillis()+dayInMillis).toString();
         return fecha;
     }

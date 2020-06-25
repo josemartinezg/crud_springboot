@@ -1,21 +1,21 @@
 package com.pucmm.crud_springboot.controladores;
 
 import com.pucmm.crud_springboot.entidades.*;
-import com.pucmm.crud_springboot.repositorios.AlquilerEquipoRepository;
-import com.pucmm.crud_springboot.repositorios.EstadoRepository;
-import com.pucmm.crud_springboot.repositorios.FacturaRepository;
-import com.pucmm.crud_springboot.repositorios.SubFamiliaEquipoRepository;
+import com.pucmm.crud_springboot.repositorios.*;
 import com.pucmm.crud_springboot.services.AlquilerService;
 import com.pucmm.crud_springboot.services.ClienteService;
 import com.pucmm.crud_springboot.services.EquipoService;
 import com.pucmm.crud_springboot.services.FacturaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.sql.Date;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +28,8 @@ public class AlquilerController {
     private final AlquilerService alquilerService;
     private final AlquilerEquipoRepository alquilerEquipoRepository;
     private final FacturaService facturaService;
+    @Autowired
+    private SFAverageRepository averageRepository;
     public AlquilerController(SubFamiliaEquipoRepository sFEService, EquipoService equipoService, EstadoRepository estadoRepository,
                               ClienteService clienteService, AlquilerService alquilerService, AlquilerEquipoRepository alquilerEquipoRepository,
                               FacturaService facturaService){
@@ -136,8 +138,31 @@ public class AlquilerController {
         /*Titulos de la plantilla*/
         setTemplateTitles(model, "Alquileres", "Ver Alquileres", "", "verAlquileres.ftl");
         /*Objetos de la plantilla*/
+        List<Cliente> clientes = clienteService.getAllClients();
         List<Factura> facturas = facturaService.getAllFacturas();
+        ArrayList<Float> chartData = getChartData();
+        ArrayList<String> chartLabels = getChartLabels();
+        model.addAttribute("id", 0);
         model.addAttribute("facturas", facturas);
+        model.addAttribute("clientes", clientes);
+        model.addAttribute("chartData", chartData);
+        model.addAttribute("chartLabels", chartLabels);
+        return "base";
+    }
+    @GetMapping("/ver-alquileres/{id}")
+    public String verAlquileresPorCliente(Model model, @PathVariable long id){
+        /*Titulos de la plantilla*/
+        setTemplateTitles(model, "Alquileres", "Ver Alquileres Por Cliente", "", "verAlquileres.ftl");
+        long rentado = 1L;
+        List<Cliente> clientes = clienteService.getAllClients();
+        List<Factura> facturas = facturaService.getAlquilerByCliente(id);
+        ArrayList<Float> chartData = getChartData();
+        ArrayList<String> chartLabels = getChartLabels();
+        model.addAttribute("id", id);
+        model.addAttribute("facturas", facturas);
+        model.addAttribute("clientes", clientes);
+        model.addAttribute("chartData", chartData);
+        model.addAttribute("chartLabels", chartLabels);
         return "base";
     }
 
@@ -151,17 +176,7 @@ public class AlquilerController {
         return "base";
     }
 
-    @GetMapping("/ver-alquileres-por-cliente/{id}")
-    public String verAlquileresPorCliente(Model model, @PathVariable long id){
-        /*Titulos de la plantilla*/
-        setTemplateTitles(model, "Alquileres", "Ver Alquileres Por Cliente", "", "verAlquileres.ftl");
-        long rentado = 1L;
-        List<Cliente> clientes = clienteService.getAllClients();
-        List<Factura> facturas = facturaService.getAlquilerByCliente(id);
-        model.addAttribute("facturas", facturas);
-        model.addAttribute("clientes", clientes);
-        return "base";
-    }
+
 
     public void setTemplateTitles(Model model, String mainHeader, String pathHeader, String path, String plantilla){
         String copyRight = "Copyright &copy; Your Website 2019";
@@ -171,4 +186,24 @@ public class AlquilerController {
         model.addAttribute("path", path);
         model.addAttribute("plantilla", plantilla);
     }
+
+    public ArrayList<Float> getChartData(){
+        ArrayList<Float> chartData = new ArrayList<>();
+        List<SFAverage> list = averageRepository.findAll();
+        for (SFAverage avg : list){
+            chartData.add(avg.getPromedio());
+        }
+        return chartData;
+    }
+
+    public ArrayList<String> getChartLabels(){
+        ArrayList<String> chartLabels = new ArrayList<>();
+        List<SFAverage> list = averageRepository.findAll();
+        for (SFAverage avg : list){
+            chartLabels.add(avg.getCategoria());
+        }
+        return chartLabels;
+    }
+
+
 }
