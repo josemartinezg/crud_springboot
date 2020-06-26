@@ -29,7 +29,6 @@
                                     </#list>
                                 </select>
                             </div>
-
                             <!-- Estado definido por el servicio -->
                             <!-- Fecha inicial definida por el servicio -->
                             <div class="col-xl-2 col-md-5">

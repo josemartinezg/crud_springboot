@@ -32,9 +32,7 @@ public class EstudiantesController {
         }
     }
     @GetMapping("/")
-    public String getIndex(Model model, Locale locale){
-        return "index";
-    }
+    public String getIndex(Model model, Locale locale){ return "index"; }
     @GetMapping("/list-students")
     public String listStudent(Model model){
         List<Estudiante> estudiantes = estudianteRepository.findAll();

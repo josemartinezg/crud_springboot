@@ -17,7 +17,6 @@
     <div class="container">
         <br>  <p class="text-center"><@spring.message "titulo_index" /></p>
         <hr>
-
         <div class="row">
             <aside class="col-md-12">
                 <div class="card">
