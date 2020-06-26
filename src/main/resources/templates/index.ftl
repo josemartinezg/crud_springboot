@@ -14,26 +14,26 @@
 <head>
     <title>SparkJava CRUD Landing Page</title>
 </head>
-<div class="container">
-    <br>  <p class="text-center">Practica 2: Programacion Web</p>
-    <hr>
+    <div class="container">
+        <br>  <p class="text-center"><@spring.message "titulo_index" /></p>
+        <hr>
 
-    <div class="row">
-        <aside class="col-md-12">
-            <div class="card">
-                <article class="card-body">
-                    <h4 class="card-title mb-4 mt-1 text-center">Manejo de Informacion de los Estudiantes</h4>
-                        <div class="form-group">
-                        </div> <!-- form-group// -->
-                        <div class="form-group">
-                            <button onclick="window.location.href='/list-students'" class="btn btn-primary btn-block"> Acceder  </button>
-                        </div> <!-- form-group// -->
-                </article>
-            </div> <!-- card.// -->
+        <div class="row">
+            <aside class="col-md-12">
+                <div class="card">
+                    <article class="card-body">
+                        <h4 class="card-title mb-4 mt-1 text-center">Manejo de Informacion de los Estudiantes</h4>
+                            <div class="form-group">
+                            </div> <!-- form-group// -->
+                            <div class="form-group">
+                                <button onclick="window.location.href='/list-students'" class="btn btn-primary btn-block"> Acceder  </button>
+                            </div> <!-- form-group// -->
+                    </article>
+                </div> <!-- card.// -->
 
-        </aside> <!-- col.// -->
+            </aside> <!-- col.// -->
 
-    </div> <!-- row.// -->
+        </div> <!-- row.// -->
 
-</div>
+    </div>
 <!--container end.//-->

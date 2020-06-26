@@ -3,12 +3,14 @@ package com.pucmm.crud_springboot.controladores;
 import com.pucmm.crud_springboot.entidades.Estudiante;
 import com.pucmm.crud_springboot.repositorios.EstudianteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Controller()
 public class EstudiantesController {
@@ -16,7 +18,8 @@ public class EstudiantesController {
     private ArrayList<Estudiante> misEstudiantes = new ArrayList<Estudiante>();
 
     private final EstudianteRepository estudianteRepository;
-
+    @Autowired
+    private MessageSource messageSource;
     public EstudiantesController(EstudianteRepository estudianteRepository){
         this.estudianteRepository = estudianteRepository;
     }
@@ -29,7 +32,7 @@ public class EstudiantesController {
         }
     }
     @GetMapping("/")
-    public String getIndex(){
+    public String getIndex(Model model, Locale locale){
         return "index";
     }
     @GetMapping("/list-students")

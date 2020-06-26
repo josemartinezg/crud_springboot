@@ -84,7 +84,7 @@
                 </div>
             </#if>
             <div class="card mb-4">
-                <div class="card-header"><i class="fas fa-table mr-1"></i><#if id == 0> Lista de Alquileres<#elseif id != 0> Historial de Alquileres<#if></div>
+                <div class="card-header"><i class="fas fa-table mr-1"></i>Lista de Alquileres</div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
