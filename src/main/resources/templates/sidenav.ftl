@@ -16,7 +16,13 @@
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                         ></a>
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="/clientes">Clientes</a><a class="nav-link" href="/equipos">Equipos</a></nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="/clientes">Clientes</a>
+                            <a class="nav-link" href="/equipos">Equipos</a>
+                            <#if isAdmin>
+                                <a class="nav-link" href="/usuarios">Usuarios</a>
+                            </#if>
+                        </nav>
                     </div>
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">

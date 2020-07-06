@@ -6,14 +6,14 @@ import com.pucmm.crud_springboot.repositorios.SubFamiliaEquipoRepository;
 import com.pucmm.crud_springboot.services.AlquilerService;
 import com.pucmm.crud_springboot.services.ClienteService;
 import com.pucmm.crud_springboot.services.EquipoService;
+import com.pucmm.crud_springboot.services.UsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.List;
@@ -26,17 +26,25 @@ public class AlquilerController {
     private final EstadoRepository estadoRepository;
     private final ClienteService clienteService;
     private final AlquilerService alquilerService;
+    private final UsuarioService usuarioService;
     public AlquilerController(SubFamiliaEquipoRepository sFEService, EquipoService equipoService,
                               EstadoRepository estadoRepository, ClienteService clienteService,
-                              AlquilerService alquilerService){
+                              AlquilerService alquilerService, UsuarioService usuarioService){
         this.sFEService = sFEService;
         this.equipoService = equipoService;
         this.estadoRepository = estadoRepository;
         this.clienteService = clienteService;
         this.alquilerService = alquilerService;
+        this.usuarioService = usuarioService;
     }
+
+    @RequestMapping("/")
+    public ModelAndView getIndex(){
+        return new ModelAndView("redirect:/realizar-alquiler");
+    }
+
     @GetMapping("/realizar-alquiler")
-    public String listArticulos(Model model){
+    public String listArticulos(Principal principal, Model model){
         /*Titulos de la plantilla*/
         String mainHeader = "Alquileres";
         String pathHeader = "Realizar Alquileres";
@@ -49,6 +57,10 @@ public class AlquilerController {
         model.addAttribute("path", path);
         String plantilla = "realizarAlquiler.ftl";
         model.addAttribute("plantilla", plantilla);
+        Usuario usuario = usuarioService.getUsuarioLoggeado(principal);
+        model.addAttribute("username", usuario.getUsername());
+        model.addAttribute("isAdmin", usuario.isAdmin());
+
         /*Objetos de la plantilla*/
         List<Cliente> clientes = clienteService.getAllClients();
         List<Estado> listaDeEstados = estadoRepository.findAll();
@@ -85,11 +97,13 @@ public class AlquilerController {
         model.addAttribute("mainHeader", mainHeader);
         model.addAttribute("pathHeader", pathHeader);
         model.addAttribute("copyRight", copyRight);
+
         /*Elemntos de la plantilla*/
         String path = "../";
         model.addAttribute("path", path);
         String plantilla = "realizarAlquiler.ftl";
         model.addAttribute("plantilla", plantilla);
+
 
         /*Objetos de la plantilla*/
         List<Cliente> clientes = clienteService.getAllClients();

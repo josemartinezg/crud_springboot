@@ -1,26 +1,36 @@
 package com.pucmm.crud_springboot.entidades;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table
 public class Usuario implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(nullable = false, unique = true)
     private String username;
-    @Column(nullable = false)
     private String password;
-    @Column(nullable = false, updatable = false)
-    private Timestamp fechaCreacion;
+    private boolean activo;
+    private String nombre;
+    private String email;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Rol> roles;
+
+    public boolean isAdmin() {
+        boolean isAdmin = false;
+        for(Rol rol : this.roles) {
+            if(rol.getRole().equals("ROLE_ADMIN")){
+                isAdmin = true;
+            }
+        }
+        return isAdmin;
+    }
 }

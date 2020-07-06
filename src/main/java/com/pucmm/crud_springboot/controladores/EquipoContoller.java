@@ -2,15 +2,18 @@ package com.pucmm.crud_springboot.controladores;
 
 import com.pucmm.crud_springboot.entidades.Equipo;
 import com.pucmm.crud_springboot.entidades.SubFamiliaEquipo;
+import com.pucmm.crud_springboot.entidades.Usuario;
 import com.pucmm.crud_springboot.repositorios.EquipoRepository;
 import com.pucmm.crud_springboot.repositorios.SubFamiliaEquipoRepository;
 import com.pucmm.crud_springboot.services.EquipoService;
+import com.pucmm.crud_springboot.services.UsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -18,16 +21,19 @@ import java.util.Optional;
 @Controller
 public class EquipoContoller {
     private final SubFamiliaEquipoRepository sFEService;
+    private final UsuarioService usuarioService;
     private final EquipoRepository equipoRepository;
     private final EquipoService equipoService;
     public EquipoContoller(SubFamiliaEquipoRepository sFEService, EquipoRepository equipoRepository,
-                           EquipoService equipoService){
+                           EquipoService equipoService, UsuarioService usuarioService){
         this.sFEService = sFEService;
         this.equipoRepository = equipoRepository;
         this.equipoService = equipoService;
+        this.usuarioService = usuarioService;
     }
+
     @GetMapping("/equipos")
-    public String listArticulos(Model model){
+    public String listArticulos(Principal principal, Model model){
         /*Titulos de la plantilla*/
         String mainHeader = "Equipos";
         String pathHeader = "Nuevo Equipo";
@@ -35,6 +41,10 @@ public class EquipoContoller {
         model.addAttribute("mainHeader", mainHeader);
         model.addAttribute("pathHeader", pathHeader);
         model.addAttribute("copyRight", copyRight);
+        Usuario usuario = usuarioService.getUsuarioLoggeado(principal);
+        model.addAttribute("username", usuario.getUsername());
+        model.addAttribute("isAdmin", usuario.isAdmin());
+
         /*Elementos de la plantilla*/
         String path = "";
         model.addAttribute("path", path);
@@ -47,6 +57,7 @@ public class EquipoContoller {
         model.addAttribute("equipos", equipoList);
         return "/base";
     }
+
     @PostMapping("/crear-equipo/")
     public String crearEquipo(@RequestParam String marca, @RequestParam String modelo,
                               @RequestParam String descripcion, @RequestParam float costo,
