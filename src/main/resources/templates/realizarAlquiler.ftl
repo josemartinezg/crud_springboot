@@ -5,18 +5,22 @@
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item active">${pathHeader}</li>
             </ol>
+            <#if error??>
+                <div class="alert alert-error">No existe inventatio suficiente para realizar este alquiler.</div>
+            </#if>
             <div class="card mb-4">
                 <div class="card-header"><i class="fas fa-table mr-1"></i>Agregar Nuevo Articulo</div>
                 <div class="card-body">
-                    <#if alquiler??>
-                        <form action="/agregar-equipo" method="post">
-                    <#else>
-                        <form action="/nuevo-alquiler" method="post">
-                    </#if>
+                <#if alquiler??>
+                    <form action="/agregar-equipo/${alquiler.id}" method="post">
+                <#else>
+                    <form action="/nuevo-alquiler" method="post">
+                </#if>
                         <div class="row">
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-cliente">Cliente</label>
                                 <select class ="form-control form-control-sm" id="cliente" name="cliente">
+                                    <option value="0">- Seleccione un cliente-</option>
                                     <#list clientes as client>
                                         <option value="${client.id}" <#if cliente?? && alquiler??
                                         && alquiler.cliente.id == cliente.id>selected</#if>>
@@ -25,13 +29,12 @@
                                     </#list>
                                 </select>
                             </div>
-
                             <!-- Estado definido por el servicio -->
                             <!-- Fecha inicial definida por el servicio -->
                             <div class="col-xl-2 col-md-5">
                                 <label id="lb-fecha">Fecha de Devolucion</label>
                                 <input id="fecha" name="fecha" type="date" class="form-control form-control-sm"
-                                        <#if alquiler??> value="${fechaDevolucion}" </#if>>
+                                        <#if fechaDevolucion??> value="${fechaDevolucion}" </#if>>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <label id="lbl-equipos">Equipos</label>
@@ -65,10 +68,7 @@
                             <label id="lbl-btn"></label>
                             <div class="col-xl-2 col-md-6 form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                 <#if alquiler??>
-                                    <a href="/agregar-equipo"><button class="btn btn-warning" type="submit">Agregar Equipo</button></a>
-                                    <label id="lbl-btn-success"></label>
-                                    <div class="col-xl-2 col-md-6 form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                    <a href="/finalizar-alquiler"><button class="btn btn-success" type="submit">Finalizar alquiler</button></a>
+                                    <a href="/agregar-equipo/${alquiler.id}"><button class="btn btn-warning" type="submit">Agregar Equipo</button></a>
                                 <#else>
                                     <a href="/nuevo-alquiler"><button class="btn btn-primary" type="submit">Agregar Alquiler</button></a>
                                 </#if>
@@ -77,8 +77,13 @@
                     </form>
                 </div>
             </div>
+            <#if alquiler??>
+                <div class="card-body">
+                    <a href="/finalizar-alquiler/${alquiler.id}"><button class="btn btn-success" type="submit">Finalizar Alquiler</button></a>
+                </div>
+            </#if>
             <div class="card mb-4">
-                <div class="card-header"><i class="fas fa-table mr-1"></i>Lista de Equipos</div>
+                <div class="card-header"><i class="fas fa-table mr-1"></i>Lista de Alquileres</div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -87,7 +92,7 @@
                                 <th>Marca</th>
                                 <th>Modelo</th>
                                 <th>Descripcion</th>
-                                <th>Existencia</th>
+                                <th>Cant.</th>
                                 <th>Costo Diario</th>
                                 <th>Familia</th>
                             </tr>
@@ -97,7 +102,7 @@
                                 <th>Marca</th>
                                 <th>Modelo</th>
                                 <th>Descripcion</th>
-                                <th>Existencia</th>
+                                <th>Cant.</th>
                                 <th>Costo Diario</th>
                                 <th>Familia</th>
                             </tr>
@@ -105,15 +110,15 @@
                             <tbody>
                             <#if nuevoAlquiler??>
                                 <#if equiposEnAlquiler??>
-                                    <#list equiposEnAlquiler as equipo>
+                                    <#list equiposEnAlquiler as relacion>
                                         <tr>
-                                            <td>${equipo.equipo.marca}</td>
-                                            <td><a href="../ver-equipo/${equipo.equipo.id}">${equipo.equipo.modelo}</a></td>
-                                            <td>${equipo.equipo.descripcion}</td>
-                                            <td>${equipo.equipo.cantidadEnExistencia}</td>
-                                            <td>RD$${equipo.equipo.costoAlquilerDiario}</td>
-                                            <td>${equipo.equipo.subFamiliaDeEquipos.familiaEquipo.nombre} -
-                                                ${equipo.equipo.subFamiliaDeEquipos.nombre}</td>
+                                            <td>${relacion.equipo.marca}</td>
+                                            <td><a href="../ver-equipo/${relacion.equipo.id}">${relacion.equipo.modelo}</a></td>
+                                            <td>${relacion.equipo.descripcion}</td>
+                                            <td>${relacion.cantidad}</td>
+                                            <td>RD$${relacion.equipo.costoAlquilerDiario}</td>
+                                            <td>${relacion.equipo.subFamiliaDeEquipos.familiaEquipo.nombre} -
+                                                ${relacion.equipo.subFamiliaDeEquipos.nombre}</td>
                                         </tr>
                                     </#list>
                                 </#if>
