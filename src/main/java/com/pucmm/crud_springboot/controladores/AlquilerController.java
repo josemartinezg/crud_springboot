@@ -30,9 +30,15 @@ public class AlquilerController {
     private final ClienteService clienteService;
     private final AlquilerService alquilerService;
     private final UsuarioService usuarioService;
+    private final FacturaService facturaService;
+    private final AlquilerEquipoRepository alquilerEquipoRepository;
+    private final SFAverageRepository averageRepository;
+
     public AlquilerController(SubFamiliaEquipoRepository sFEService, EquipoService equipoService,
                               EstadoRepository estadoRepository, ClienteService clienteService,
-                              AlquilerService alquilerService, UsuarioService usuarioService, FacturaService facturaService){
+                              AlquilerService alquilerService, UsuarioService usuarioService,
+                              FacturaService facturaService, AlquilerEquipoRepository alquilerEquipoRepository,
+                              SFAverageRepository averageRepository){
         this.sFEService = sFEService;
         this.equipoService = equipoService;
         this.estadoRepository = estadoRepository;
@@ -41,6 +47,7 @@ public class AlquilerController {
         this.alquilerEquipoRepository = alquilerEquipoRepository;
         this.facturaService = facturaService;
         this.usuarioService = usuarioService;
+        this.averageRepository = averageRepository;
     }
 
     @RequestMapping("/")
@@ -223,7 +230,7 @@ public class AlquilerController {
 
     public ArrayList<Float> getChartData(){
         ArrayList<Float> chartData = new ArrayList<>();
-        List<SFAverage> list = averageRepository.findAll();
+        List<SFAverage> list = this.averageRepository.findAll();
         for (SFAverage avg : list){
             chartData.add(avg.getPromedio());
         }
@@ -232,7 +239,7 @@ public class AlquilerController {
 
     public ArrayList<String> getChartLabels(){
         ArrayList<String> chartLabels = new ArrayList<>();
-        List<SFAverage> list = averageRepository.findAll();
+        List<SFAverage> list = this.averageRepository.findAll();
         for (SFAverage avg : list){
             chartLabels.add(avg.getCategoria());
         }
