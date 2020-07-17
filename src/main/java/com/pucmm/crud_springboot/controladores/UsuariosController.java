@@ -2,6 +2,7 @@ package com.pucmm.crud_springboot.controladores;
 
 import com.pucmm.crud_springboot.entidades.Rol;
 import com.pucmm.crud_springboot.entidades.Usuario;
+import com.pucmm.crud_springboot.repositorios.RolRepository;
 import com.pucmm.crud_springboot.services.UsuarioService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,10 +22,12 @@ public class UsuariosController {
     private final String pathHeader = "Gestión de Clientes";
     private final String copyRight = "Copyright &copy; Your Website 2019";
     private final UsuarioService usuarioService;
+    private final RolRepository rolRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    public UsuariosController(UsuarioService usuarioService){
+    public UsuariosController(UsuarioService usuarioService, RolRepository rolRepository){
         this.usuarioService = usuarioService;
+        this.rolRepository = rolRepository;
     }
 
     @GetMapping("/usuarios")
@@ -35,6 +38,9 @@ public class UsuariosController {
         Usuario usuario = usuarioService.getUsuarioLoggeado(principal);
         model.addAttribute("username", usuario.getUsername());
         model.addAttribute("isAdmin", usuario.isAdmin());
+
+        List<Rol> roles = rolRepository.findAll();
+        model.addAttribute("roles", roles);
 
         List<Usuario> usuarios = usuarioService.getAll();
         model.addAttribute("usuarios", usuarios);
@@ -50,7 +56,7 @@ public class UsuariosController {
     @PostMapping("/usuarios/registrarUsuario")
     private String registrarUsuario(Principal principal, Model model, @RequestParam String username,
                                     @RequestParam String email, @RequestParam String password,
-                                    @RequestParam String nombre){
+                                    @RequestParam String nombre, @RequestParam String rol){
         model.addAttribute("pathHeader", this.pathHeader);
         model.addAttribute("copyRight", this.copyRight);
         model.addAttribute("mainHeader", this.mainHeader);
@@ -58,7 +64,7 @@ public class UsuariosController {
         model.addAttribute("username", usuario.getUsername());
         model.addAttribute("isAdmin", usuario.isAdmin());
 
-        Rol rolUser = new Rol("ROLE_USER");
+        Rol rolUser = rolRepository.getOne(rol);
         usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setActivo(true);

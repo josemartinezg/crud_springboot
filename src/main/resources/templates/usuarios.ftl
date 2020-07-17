@@ -13,31 +13,49 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="cedula">Cedula</label>
-                                        <input type="text" class="form-control" id="cedula" name="cedula" placeholder="Cedula" required>
+                                        <label for="username">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
                                     </div>
                                 </div>
-                                <div class="col-xl-2 col-md-6">
-                                    <label id="lbl-imagen-eq">Imagen</label>
-                                    <input id="imagen" name="imagen" type="file" class="form-control-file form-control-sm">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                                    </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="nombre">Nombre</label>
-                                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del Cliente" required>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de usuario" required>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="apellido">Apellido</label>
-                                        <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido del Cliente" required>
+                                        <label for="email">Email</label>
+                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email" required>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label for="rol">Rol del usuario</label>
+                                    <select class="custom-select" id="rol" name="rol" required>
+                                        <#list roles as rol>
+                                            <option value="${rol.role}">${rol.role}</option>
+                                        </#list>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="custom-checkbox">
+                                            <label class="custom-control-label" for="activo">Activo</label>
+                                            <input type="checkbox" class="custom-control-input" id="activo" name="activo" required>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <input id="id" name="id" value="" hidden/>
                             <div class="row justify-content-sm-start">
                                 <div class="col col-sm-1">
-                                    <a href="/agregar-cliente"><button class="btn btn-success" type="submit">Agregar</button></a>
+                                    <a href="/usuarios/registrarUsuario"><button class="btn btn-success" type="submit">Agregar</button></a>
                                 </div>
                                 <div class="col col-sm-1">
                                     <a><button class="btn btn-dark" onclick="limpiarForm()">limpiar</button></a>
@@ -49,7 +67,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="cedula">Cedula</label>
+                                        <label for="username">Cedula</label>
                                         <input type="text" class="form-control" id="cedula" name="cedula" value="${clienteEditado.cedula}" placeholder="Cedula" required>
                                     </div>
                                 </div>
@@ -93,7 +111,7 @@
                                 <th>Username</th>
                                 <th>Nombre</th>
                                 <th>Email</th>
-                                <th>Roles</th>
+                                <th>Rol</th>
                                 <th>Activo</th>
                                 <th>Acciones</th>
                             </tr>
@@ -103,7 +121,7 @@
                                 <th>Username</th>
                                 <th>Nombre</th>
                                 <th>Email</th>
-                                <th>Roles</th>
+                                <th>Rol</th>
                                 <th>Activo</th>
                                 <th>Acciones</th>
                             </tr>
