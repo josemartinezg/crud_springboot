@@ -18,8 +18,8 @@ import java.util.List;
 
 @Controller
 public class UsuariosController {
-    private final String mainHeader = "Clientes";
-    private final String pathHeader = "Gestión de Clientes";
+    private final String mainHeader = "Usuarios";
+    private final String pathHeader = "Gestión de usuarios";
     private final String copyRight = "Copyright &copy; Your Website 2019";
     private final UsuarioService usuarioService;
     private final RolRepository rolRepository;
@@ -56,7 +56,7 @@ public class UsuariosController {
     @PostMapping("/usuarios/registrarUsuario")
     private String registrarUsuario(Principal principal, Model model, @RequestParam String username,
                                     @RequestParam String email, @RequestParam String password,
-                                    @RequestParam String nombre, @RequestParam String rol){
+                                    @RequestParam String nombre, @RequestParam String rol, @RequestParam boolean activo){
         model.addAttribute("pathHeader", this.pathHeader);
         model.addAttribute("copyRight", this.copyRight);
         model.addAttribute("mainHeader", this.mainHeader);
@@ -67,7 +67,7 @@ public class UsuariosController {
         Rol rolUser = rolRepository.getOne(rol);
         usuario = new Usuario();
         usuario.setNombre(nombre);
-        usuario.setActivo(true);
+        usuario.setActivo(activo);
         usuario.setUsername(username);
         usuario.setEmail(email);
         usuario.setPassword(bCryptPasswordEncoder.encode(password));

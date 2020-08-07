@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="col-xl-2 col-md-6">
                                 <label id="lbl-cliente">Cliente</label>
-                                <select class ="form-control form-control-sm" id="cliente" name="cliente">
+                                <select class ="form-control form-control-sm" id="cliente" name="cliente" required>
                                     <option value="0">- Seleccione un cliente-</option>
                                     <#list clientes as client>
                                         <option value="${client.id}" <#if cliente?? && alquiler??

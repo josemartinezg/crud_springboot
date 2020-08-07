@@ -47,7 +47,7 @@
                                     <div class="form-group">
                                         <div class="custom-checkbox">
                                             <label class="custom-control-label" for="activo">Activo</label>
-                                            <input type="checkbox" class="custom-control-input" id="activo" name="activo" required>
+                                            <input type="checkbox" class="custom-control-input" id="activo" name="activo">
                                         </div>
                                     </div>
                                 </div>

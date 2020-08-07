@@ -73,7 +73,7 @@ public class AlquilerController {
         model.addAttribute("username", usuario.getUsername());
         model.addAttribute("isAdmin", usuario.isAdmin());
 
-        setTemplateTitles(model, "Alquileres", "Realizar Alquiler", "", "realizarAlquiler.ftl");
+        setTemplateTitles(model, "Alquileres", "Realizar Alquiler", "", "realizarAlquiler.ftl", principal);
         /*Objetos de la plantilla*/
         List<Cliente> clientes = clienteService.getAllClients();
         List<Estado> listaDeEstados = estadoRepository.findAll();
@@ -94,7 +94,7 @@ public class AlquilerController {
     @PostMapping("/nuevo-alquiler")
     public String nuevoAlquiler(@RequestParam int cliente, Model model,
                                 @RequestParam String fecha, @RequestParam int equipo,
-                                @RequestParam int cantidad)
+                                @RequestParam int cantidad, Principal principal)
             throws IOException, ParseException {
          /*Creación de objetos en base a los parámetros-*/
         Equipo primerEquipo = equipoService.obtenerEquipo(equipo);
@@ -113,7 +113,7 @@ public class AlquilerController {
         model.addAttribute("path", path);
         String plantilla = "realizarAlquiler.ftl";
         model.addAttribute("plantilla", plantilla);
-        setTemplateTitles(model, "Alquileres", "Realizar Alquiler", "../", "realizarAlquiler.ftl");
+        setTemplateTitles(model, "Alquileres", "Realizar Alquiler", "../", "realizarAlquiler.ftl", principal);
         int cantidadExistencia = primerEquipo.getCantidadEnExistencia();
 
         if (cantidadExistencia >= cantidad){
@@ -125,13 +125,13 @@ public class AlquilerController {
         }
     }
     @GetMapping("/realizar-alquiler/{id}" )
-    public String agregarMasEquiposAlquiler(@PathVariable long id, Model model, @RequestParam(required = false) Integer error){
+    public String agregarMasEquiposAlquiler(@PathVariable long id, Model model, @RequestParam(required = false) Integer error, Principal principal){
         /*TODO: Este método me presentará la plantilla "nuevoAlquiler", o una variante
         *  la cual tendra toda la información ya registrada del alquiler.
         * Luego debe de haber otro método que reciba unicamente un equipo nuevo que sea registrado, para agregarlo al
         * la lista de Equipos del Alquiler.*/
         /*Titulos y elementos de la plantilla*/
-        setTemplateTitles(model, "Alquileres", "Realizar Alquiler", "../", "realizarAlquiler.ftl");
+        setTemplateTitles(model, "Alquileres", "Realizar Alquiler", "../", "realizarAlquiler.ftl", principal);
         /*Objetos de la plantilla*/
         List<Cliente> clientes = clienteService.getAllClients();
         List<Estado> listaDeEstados = estadoRepository.findAll();
@@ -152,9 +152,9 @@ public class AlquilerController {
         return "base";
     }
     @PostMapping("/agregar-equipo/{id}")
-    public String agregarEquipo(Model model, @PathVariable long id, @RequestParam long equipo, @RequestParam int cantidad){
+    public String agregarEquipo(Model model, @PathVariable long id, @RequestParam long equipo, @RequestParam int cantidad, Principal principal){
         /*Titulos de la plantilla*/
-        setTemplateTitles(model, "Alquileres", "Realizar alquiler", "../", "realizarAlquiler.ftl");
+        setTemplateTitles(model, "Alquileres", "Realizar alquiler", "../", "realizarAlquiler.ftl", principal);
         /*Elemntos de la plantilla*/
         int cantidadExistencia = equipoService.obtenerEquipo(equipo).getCantidadEnExistencia();
         if(cantidadExistencia >= cantidad){
@@ -167,17 +167,17 @@ public class AlquilerController {
     }
 
     @RequestMapping("/finalizar-alquiler/{id}")
-    public String finalizarAlquiler(Model model, @PathVariable long id){
+    public String finalizarAlquiler(Model model, @PathVariable long id, Principal principal){
         /*Titulos de la plantilla*/
-        setTemplateTitles(model, "Alquileres", "Nuevo Alquiler", "../", "realizarAlquiler.ftl");
+        setTemplateTitles(model, "Alquileres", "Nuevo Alquiler", "../", "realizarAlquiler.ftl", principal);
         alquilerService.finalizarAlquiler(id);
         return "redirect:/ver-alquileres";
     }
 
     @GetMapping("/ver-alquileres")
-    public String verAlquileres(Model model){
+    public String verAlquileres(Model model, Principal principal){
         /*Titulos de la plantilla*/
-        setTemplateTitles(model, "Alquileres", "Ver Alquileres", "", "verAlquileres.ftl");
+        setTemplateTitles(model, "Alquileres", "Ver Alquileres", "", "verAlquileres.ftl", principal);
         /*Objetos de la plantilla*/
         List<Cliente> clientes = clienteService.getAllClients();
         List<Factura> facturas = facturaService.getAllFacturas();
@@ -191,9 +191,9 @@ public class AlquilerController {
         return "base";
     }
     @GetMapping("/ver-alquileres/{id}")
-    public String verAlquileresPorCliente(Model model, @PathVariable long id){
+    public String verAlquileresPorCliente(Model model, @PathVariable long id, Principal principal){
         /*Titulos de la plantilla*/
-        setTemplateTitles(model, "Alquileres", "Ver Alquileres Por Cliente", "", "verAlquileres.ftl");
+        setTemplateTitles(model, "Alquileres", "Ver Alquileres Por Cliente", "", "verAlquileres.ftl", principal);
         long rentado = 1L;
         List<Cliente> clientes = clienteService.getAllClients();
         List<Factura> facturas = facturaService.getAlquilerByCliente(id);
@@ -203,14 +203,16 @@ public class AlquilerController {
         model.addAttribute("facturas", facturas);
         model.addAttribute("clientes", clientes);
         model.addAttribute("chartData", chartData);
+        Usuario usuario = usuarioService.getUsuarioLoggeado(principal);
+        model.addAttribute("username", usuario.getUsername());
         model.addAttribute("chartLabels", chartLabels);
         return "base";
     }
 
     @GetMapping("/ver-alquileres-pendientes")
-    public String verAlquileresPendientes(Model model){
+    public String verAlquileresPendientes(Model model, Principal principal){
         /*Titulos de la plantilla*/
-        setTemplateTitles(model, "Alquileres", "Ver Alquileres Pendientes", "", "verAlquileres.ftl");
+        setTemplateTitles(model, "Alquileres", "Ver Alquileres Pendientes", "", "verAlquileres.ftl" , principal);
         long rentado = 1L;
         List<Factura> facturas = facturaService.getAlquilerByEstado(rentado);
         model.addAttribute("facturas", facturas);
@@ -219,13 +221,16 @@ public class AlquilerController {
 
 
 
-    public void setTemplateTitles(Model model, String mainHeader, String pathHeader, String path, String plantilla){
+    public void setTemplateTitles(Model model, String mainHeader, String pathHeader, String path, String plantilla, Principal principal){
         String copyRight = "Copyright &copy; Your Website 2019";
         model.addAttribute("mainHeader", mainHeader);
         model.addAttribute("pathHeader", pathHeader);
         model.addAttribute("copyRight", copyRight);
         model.addAttribute("path", path);
         model.addAttribute("plantilla", plantilla);
+        Usuario usuario = usuarioService.getUsuarioLoggeado(principal);
+        model.addAttribute("username", usuario.getUsername());
+        model.addAttribute("isAdmin", usuario.isAdmin());
     }
 
     public ArrayList<Float> getChartData(){
