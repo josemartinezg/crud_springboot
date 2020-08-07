@@ -83,7 +83,7 @@ public class UsuariosController {
         String plantilla = "usuarios.ftl";
         model.addAttribute("plantilla", plantilla);
 
-        return "/base";
+        return "redirect:/usuarios";
     }
 
     @GetMapping("/usuarios/editarUsuario")
