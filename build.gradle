@@ -23,8 +23,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.3.0.RELEASE'
     // https://mvnrepository.com/artifact/com.h2database/h2
-    testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
-    //implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    testCompile group: 'com.h2database', name: 'h2', version: '1.4.197'
     implementation 'org.springframework.boot:spring-boot-starter-freemarker'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
@@ -34,6 +33,14 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    //Incluyendo el módulo de seguridad.
+    compile('org.springframework.boot:spring-boot-starter-security')
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.3.2.RELEASE'
+    //cliente spring boot admin.
+    compile('de.codecentric:spring-boot-admin-starter-client:2.2.2')
+    compile 'org.webjars:bootstrap:3.3.7-1'
+    compile 'org.webjars:jquery:3.1.0'
 }
 
 test {

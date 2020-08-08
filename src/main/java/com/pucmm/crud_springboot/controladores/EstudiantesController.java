@@ -3,12 +3,14 @@ package com.pucmm.crud_springboot.controladores;
 import com.pucmm.crud_springboot.entidades.Estudiante;
 import com.pucmm.crud_springboot.repositorios.EstudianteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Controller()
 public class EstudiantesController {
@@ -16,7 +18,8 @@ public class EstudiantesController {
     private ArrayList<Estudiante> misEstudiantes = new ArrayList<Estudiante>();
 
     private final EstudianteRepository estudianteRepository;
-
+    @Autowired
+    private MessageSource messageSource;
     public EstudiantesController(EstudianteRepository estudianteRepository){
         this.estudianteRepository = estudianteRepository;
     }
@@ -28,17 +31,17 @@ public class EstudiantesController {
             misEstudiantes.add(new Estudiante(550, "Miguel", "Moronta", "829-999-5557"));
         }
     }
-    @GetMapping("/")
-    public String getIndex(){
-        return "index";
-    }
+//    @GetMapping("/")
+//    public String getIndex(){
+//        return "index";
+//    }
     @GetMapping("/list-students")
     public String listStudent(Model model){
         List<Estudiante> estudiantes = estudianteRepository.findAll();
-        String titulo = "Lista de Estudiantes";
-        model.addAttribute("titulo", titulo);
+        String plantilla = "carrito.ftl";
+        model.addAttribute("plantilla", plantilla);
         model.addAttribute("misEstudiantes", estudiantes);
-        return "/tablaEstudiantes";
+        return "/base";
     }
     @GetMapping("/new-student")
     public String newStudent (Model model){
